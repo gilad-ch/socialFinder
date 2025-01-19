@@ -1,5 +1,11 @@
 # Project Setup Instructions
 
+## Project Description
+
+This project is a dashboard for analyzing and visualizing data from various social media platforms, including Twitter. It consists of a backend built with FastAPI, a frontend built with React, and a worker system using RabbitMQ and Celery for task scheduling and message processing. MongoDB is used to store user data, keywords, and tweets. The project is designed to provide dynamic, real-time dashboards for users to filter, categorize, and monitor social media activity.
+
+---
+
 ## Steps to Set Up the Project
 
 1. **Download and Set Up MongoDB**  
@@ -67,3 +73,4 @@
      ```bash
      python scheduler.py
      ```
+
