@@ -1,0 +1,20 @@
+Step for setting up the project:
+1. Download and setup a mongo DB server
+2. Configure mongo DB - connect to the DB and create a DB named "twitter"
+and create "users", "keywords" and "tweets" collections.
+also create mongoDB indexes - created_at-1 
+
+3. install python and node js
+4. run fastapi server using python -m uvicorn app:app --reload
+5. run react using npm run dev in ./frontend
+
+for worker:
+1. configure Headers.json
+2. install Erlang - https://www.erlang.org/downloads
+3. install Rabbitmq - https://www.rabbitmq.com/docs/install-windows
+4. setup rabbitmq:
+add C:\Program Files\RabbitMQ Server\rabbitmq_server-4.0.5\sbin to envierment var
+run rabbitmq-plugins enable rabbitmq_management  - to enable web ui at http://localhost:15672 user and pass = guest
+run celery worker using python -m celery -A twitterTask worker --loglevel=INFO --pool=solo
+
+5. run scheduler by running - python scheduler.py

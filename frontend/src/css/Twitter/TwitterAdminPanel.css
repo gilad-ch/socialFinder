@@ -1,0 +1,194 @@
+.admin-panel {
+  overflow-y: auto;
+  margin: 10px;
+  padding: 5px 20px;
+  border-radius: 12px;
+  color: var(--on-surface);
+}
+
+.upper-section {
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.table-selector {
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid var(--primary);
+  background-color: var(--surface);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+  color: var(--on-surface);
+  cursor: pointer;
+}
+
+.table-selector:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.user-table-container {
+  border-radius: 11px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.add-user-btn {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 25%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-user-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.user-table {
+  border-radius: 11px;
+  overflow: hidden;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.user-table th,
+.user-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-table th {
+  background-color: rgba(255, 255, 255, 0.05);
+  font-weight: bold;
+  color: var(--on-surface);
+}
+
+.user-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.delete-btn {
+  background-color: transparent;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.user-table th:last-child,
+.user-table td:last-child {
+  text-align: center;
+  width: 50px;
+}
+
+.add-user-btn,
+.delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+}
+
+.delete-btn:hover {
+  color: var(--primary-dark);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--surface);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: var(--on-surface);
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.modal-content input {
+  width: 95%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  background-color: var(--surface);
+  color: var(--on-surface);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.modal-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modal-actions button:first-child {
+  background-color: var(--primary);
+  color: white;
+}
+
+.modal-actions button:last-child {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.modal-actions button:hover {
+  opacity: 0.8;
+}
+
+.spinner-container-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

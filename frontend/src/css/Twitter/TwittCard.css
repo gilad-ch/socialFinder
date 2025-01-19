@@ -1,0 +1,379 @@
+.twitt-card {
+  position: relative;
+  font-family: Arial, sans-serif;
+  background-color: var(--surface);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 468px;
+  max-width: 100%;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.twitt-chain {
+  width: 468px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.twitt-card:hover {
+  background-color: #2b2a2a;
+}
+
+.twitt-card.chained {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.twitt-card-content {
+  transition: background-color 0.3s ease;
+  padding: 16px;
+}
+
+.twitt-card-content:hover {
+  background-color: inherit;
+}
+
+.retwitt-indicator {
+  color: var(--on-surface);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.tweet-buttom-section {
+  display: flex;
+  align-items: center;
+}
+
+.profile-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.tweet-link-button {
+  margin-left: auto;
+  color: var(--primary);
+}
+
+.tweet-link-button:hover {
+  color: var(--primary-dark);
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0;
+  color: var(--on-surface);
+}
+
+.handle {
+  color: var(--on-surface);
+  opacity: 0.7;
+  font-size: 14px;
+  margin: 0;
+}
+
+.verified-badge {
+  color: var(--primary);
+  margin-left: 4px;
+}
+
+.twitt-text {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  color: var(--on-surface);
+}
+
+.twitt-text-hebrew {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.twitt-text .highlight {
+  color: var(--primary);
+}
+
+.media-preview {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.timestamp {
+  color: var(--on-surface);
+  opacity: 0.7;
+  font-size: 14px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.engagement-metrics {
+  display: flex;
+  justify-content: space-between;
+  color: var(--on-surface);
+  opacity: 0.7;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+}
+
+.metric-icon {
+  margin-right: 4px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 8px;
+}
+
+.action-button {
+  flex: 1;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.approve {
+  background-color: #4caf50;
+  color: white;
+}
+
+.approve:hover {
+  background-color: #45a049;
+}
+
+.save {
+  background-color: var(--primary);
+  color: white;
+}
+
+.save:hover {
+  background-color: var(--primary-dark);
+}
+
+.delete-button {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--error);
+  color: var(--error);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.delete-button:hover {
+  background-color: var(--error);
+  color: var(--on-primary);
+}
+
+.delete-confirm-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-confirm-popup {
+  background-color: var(--surface);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.delete-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.delete-confirm-actions button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.delete-confirm-actions button:first-child {
+  background-color: var(--error);
+  color: var(--on-primary);
+}
+
+.delete-confirm-actions button:first-child:hover {
+  background-color: var(--error-dark);
+}
+
+.delete-confirm-actions button:last-child {
+  background-color: var(--gray-200);
+  color: var(--on-surface);
+}
+
+.delete-confirm-actions button:last-child:hover {
+  background-color: var(--gray-300);
+}
+
+.unknown {
+  background-color: #9e9e9e;
+  color: white;
+}
+
+.unknown:hover {
+  background-color: #757575;
+}
+
+.retwitts {
+  padding-left: 16px;
+  border-left: 2px solid var(--primary);
+  margin-left: 8px;
+  margin-top: 8px;
+}
+
+.retwitts .twitt-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+}
+
+.modal {
+  display: flex;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content-box {
+  margin: auto;
+  max-width: 560px;
+  max-height: 560px;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.close {
+  color: #fff;
+  font-size: 35px;
+  font-weight: bold;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.twitt-chain {
+  background-color: var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.chain-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 8px;
+  background-color: var(--surface);
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.chain-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chain-toggle svg {
+  margin-right: 8px;
+}
+
+.chained-twitts {
+  max-height: 5000px;
+  overflow: hidden;
+}
+
+.twitt-keyword {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 0.9em;
+  margin: 0.5em 0;
+  gap: 0.5em;
+}
+
+.keyword-value {
+  cursor: pointer;
+  background-color: var(--accent-color, #0073e6);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Space between the icon and the keyword */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.keyword-value:hover {
+  background-color: var(--accent-hover-color, #005bb5);
+  transform: scale(1.05);
+}
+
+.keyword-icon {
+  color: white; /* Make the icon white for contrast */
+}

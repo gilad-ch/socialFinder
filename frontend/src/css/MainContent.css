@@ -1,0 +1,44 @@
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  background-color: var(--background);
+}
+
+.spinner-container {
+  height: 50px; /* Fixed height for consistency */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent; /* Ensure it doesn’t cause color artifacts */
+  margin: 0; /* Remove unnecessary margins */
+  padding: 0; /* Remove unnecessary padding */
+}
+
+.spinner-container-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height for vertical centering */
+  width: 100%; /* Full width for horizontal centering */
+  background-color: transparent; /* Optional: Light background color */
+}
+
+.main-content h2 {
+  color: var(--on-background);
+  margin-bottom: 1rem;
+}
+
+.in-working-message {
+  text-align: center;
+  padding: 2rem;
+  background-color: var(--surface);
+  border-radius: 8px;
+  margin-top: 2rem;
+  color: var(--on-surface);
+}
+
+.in-working-message h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
