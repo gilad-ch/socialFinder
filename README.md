@@ -18,14 +18,8 @@ This project is a dashboard for analyzing and visualizing data from various soci
    - Create an index for the `tweets` collection:  
      ```bash
      created_at: -1
-     ```
-     ```bash
      text: text
-     ```
-     ```bash
      user.id: -1
-     ```
-     ```bash
      keyword: -1
      ```
 
