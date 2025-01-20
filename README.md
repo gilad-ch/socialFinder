@@ -19,6 +19,15 @@ This project is a dashboard for analyzing and visualizing data from various soci
      ```bash
      created_at: -1
      ```
+     ```bash
+     text: text
+     ```
+     ```bash
+     user.id: -1
+     ```
+     ```bash
+     keyword: -1
+     ```
 
 3. **Install Python and Node.js**  
    - Download and install Python from [python.org](https://www.python.org/downloads/).  
