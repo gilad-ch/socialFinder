@@ -120,14 +120,34 @@ export async function deleteKeyword(_id) {
 
 // ---------------- Twitts ----------------
 
-export async function fetchTwitts(status = 0, cursor) {
+export async function fetchTwitts(status = 0, cursor = null, keywords = null, user_id = null, search = null) {
   try {
-    const respnonse = await fetch(`/api/twitter/tweets?status=${status}${cursor ? `&cursor=${cursor}` : ""}`)
-    return await respnonse.json()
+    // Build the base URL with the status and cursor parameters
+    let url = `/api/twitter/tweets?status=${status}${cursor ? `&cursor=${cursor}` : ""}`;
 
+    // Add keywords to the URL if provided
+    if (keywords) {
+      keywords.forEach(kw => {
+        url += `&keyword=${encodeURIComponent(kw)}`;
+      });
+    }
+
+    // Add user_id to the URL if provided
+    if (user_id) {
+      url += `&user_id=${user_id}`;
+    }
+
+    // Add search to the URL if provided (this is for case-insensitive search)
+    if (search) {
+      url += `&search=${encodeURIComponent(search)}`;
+    }
+
+    // Fetch the response from the API
+    const response = await fetch(url);
+    return await response.json();
+    
   } catch (error) {
-    console.error(error)
-
+    console.error(error);
   }
 }
 
