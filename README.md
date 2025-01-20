@@ -15,7 +15,7 @@ This project is a dashboard for analyzing and visualizing data from various soci
 2. **Configure MongoDB**  
    - Connect to the MongoDB server and create a database named `twitter`.  
    - Inside the `twitter` database, create the following collections: `users`, `keywords`, and `tweets`.  
-   - Create an index for the `tweets` collection:  
+   - Create indexes for the `tweets` collection:  
      ```bash
      created_at: -1
      text: text
