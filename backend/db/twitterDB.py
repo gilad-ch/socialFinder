@@ -54,7 +54,7 @@ class TwitterDB:
 
         if search:
             # Case-insensitive search
-            query["text"] = {"$regex": search, "$options": "i"}
+            query["$text"] = {"$search": search}
 
         if status:
             query["status"] = status
