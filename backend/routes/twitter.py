@@ -1,3 +1,5 @@
+from fastapi import Query
+from typing import List, Optional
 from fastapi import APIRouter, HTTPException, Path
 from bson import ObjectId
 from db.twitterDB import TwitterDB, Tweet, User, Keyword
@@ -8,6 +10,13 @@ import re
 twitter_db = TwitterDB()
 router = APIRouter(prefix="/twitter")
 
+patterns = {
+    'twitter_keyword_pattern': r'^[a-zA-Z0-9" \u0590-\u05FF\u0600-\u06FF]{1,15}$',
+    'twitter_username_pattern': r'^@[a-zA-Z0-9_]{1,15}$',
+    'twitter_user_id_pattern': r'^[a-zA-Z0-9]{1,20}$'
+}
+
+
 # ---------------- Admin Pannel - Users ----------------
 
 
@@ -15,8 +24,7 @@ router = APIRouter(prefix="/twitter")
 async def add_monitored_user(username: str):
     # validate user
     users = await twitter_db.get_users()
-    twitter_username_pattern = r'^@[a-zA-Z0-9_]{1,15}$'
-    if not re.match(twitter_username_pattern, username):
+    if not re.match(patterns["twitter_username_pattern"], username):
         raise HTTPException(
             status_code=400, detail="Incorrect username format")
     username = username[1:]
@@ -36,6 +44,7 @@ async def add_monitored_user(username: str):
     return {**user, "_id": str(_id)}
 
 
+# TODO change to _id and post
 @router.get("/remove_user/{username}")
 async def remove_monitored_user(username: str):
     await twitter_db.remove_user(username)
@@ -57,10 +66,9 @@ async def get_twitter_keywords():
 
 @router.post("/add_keyword/{keyword}", response_model=Keyword)
 async def add_keyword(keyword: str):
-    # validate user
+    # validate keyword
     keywords = await twitter_db.get_keywords()
-    twitter_keyword_pattern = r'^[a-zA-Z0-9" \u0590-\u05FF\u0600-\u06FF]{1,15}$'
-    if not re.match(twitter_keyword_pattern, keyword):
+    if not re.match(patterns["twitter_keyword_pattern"], keyword):
         raise HTTPException(
             status_code=400, detail="Incorrect keyword format")
     if any([_keyword['keyword'] == keyword for _keyword in keywords]):
@@ -100,17 +108,48 @@ async def delete_keyword(document_id: str = Path(..., title="Document ID", descr
 
 
 @router.get("/tweets", response_model=List[Tweet])
-async def get_tweets(status: int = 0, cursor: float = None):
-    tweets = await twitter_db.get_tweets(status, cursor)
+async def get_tweets(status: Optional[int] = None, cursor: Optional[float] = None, user_id: Optional[str] = None,
+                     keyword: Optional[List[str]] = Query(None), search: Optional[str] = None):
+    if status is not None:
+        if status < 0 or status >= 3:
+            raise HTTPException(
+                status_code=400, detail="Invalid status format. Allowed values: 0, 1, 2."
+            )
+    if user_id:
+        if not re.match(patterns["twitter_user_id_pattern"], user_id):
+            raise HTTPException(
+                status_code=400, detail="Invalid user_id format."
+            )
+    if keyword:
+        for kw in keyword:
+            if not re.match(patterns["twitter_keyword_pattern"], kw):
+                raise HTTPException(
+                    status_code=400, detail=f"Invalid keyword format: {kw}"
+                )
+    if search:
+        if not re.match(patterns["twitter_keyword_pattern"], search):
+            raise HTTPException(
+                status_code=400, detail="Invalid search format."
+            )
+
+    tweets = await twitter_db.get_tweets(status=status, date_limit=cursor, keywords=keyword,
+                                         user_id=user_id, search=search)
     return tweets
 
 
+# TODO change to post and validate
 @router.get("/approve/{document_id}")
-async def approve_tweet(document_id: str):
+async def approve_tweet(document_id: str = Path(..., title="Document ID", description="Valid MongoDB ObjectId")):
+    # Validate if the document_id is a valid ObjectId
+    if not ObjectId.is_valid(document_id):
+        raise HTTPException(
+            status_code=400, detail="Invalid document ID format."
+        )
     await twitter_db.delete_tweet(document_id)
     return {"message": "Tweet approved successfully"}
 
 
+# validate tweet_id
 @router.post("/update_tweet_status/{tweet_id}")
 async def update_tweet_status(tweet_id: str, status: int):
     # Validate status

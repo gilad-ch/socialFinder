@@ -35,36 +35,29 @@ class TwitterDB:
 
     async def get_tweets(
         self,
-        status: int = 0,
+        status: int = None,
         date_limit: float = None,
-        start_date: float = None,
-        end_date: float = None,
         user_id: str = None,
-        keyword: str = None,
+        keywords: list = None,
         search: str = None
     ):
         if date_limit is None:
             date_limit = time.time()
 
-        query = {"status": status, "created_at": {"$lt": date_limit}}
-
-        if start_date and end_date:
-            query["created_at"]["$gte"] = start_date
-            query["created_at"]["$lte"] = end_date
-        elif start_date:
-            query["created_at"]["$gte"] = start_date
-        elif end_date:
-            query["created_at"]["$lte"] = end_date
+        query = {"created_at": {"$lt": date_limit}}
 
         if user_id:
             query["user.id"] = user_id
 
-        if keyword:
-            query["keyword"] = keyword
+        if keywords:
+            query["keyword"] = {"$in": keywords}
 
         if search:
             # Case-insensitive search
             query["text"] = {"$regex": search, "$options": "i"}
+
+        if status:
+            query["status"] = status
 
         frame_size = 10
         tweets_cursor = self.tweets.find(query).sort(
