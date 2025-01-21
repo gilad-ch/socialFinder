@@ -1,4 +1,4 @@
-# Project Setup Instructions
+# Social Finder Dashboard
 
 ## Project Description
 
