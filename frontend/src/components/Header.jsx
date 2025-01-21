@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import React from "react";
 import { Twitter, Send, Instagram, ChevronDown, Ship } from "lucide-react";
 import { useState } from "react";
+import SelectMenu from "./general/selectMenu"; // If the file is named selectMenu.jsx
 import "../css/Header.css";
 
 function Header({ selectedPlatform, setSelectedPlatform }) {
@@ -43,28 +44,11 @@ function Header({ selectedPlatform, setSelectedPlatform }) {
           Admin Panel
         </Link>
       </nav>
-      <div className="platform-dropdown">
-        <button className="dropdown-button">
-          {React.createElement(
-            platforms.find((p) => p.name === selectedPlatform).icon,
-            { size: 18 }
-          )}
-          <span>{selectedPlatform}</span>
-          <ChevronDown size={18} />
-        </button>
-        <div className="dropdown-content">
-          {platforms.map((platform) => (
-            <button
-              key={platform.name}
-              className="dropdown-item"
-              onClick={() => setSelectedPlatform(platform.name)}
-            >
-              {React.createElement(platform.icon, { size: 18 })}
-              <span>{platform.name}</span>
-            </button>
-          ))}
-        </div>
-      </div>
+      <SelectMenu
+        options={platforms}
+        selectedOption={selectedPlatform}
+        setSelectedOption={setSelectedPlatform}
+      />
     </header>
   );
 }

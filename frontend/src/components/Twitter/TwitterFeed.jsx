@@ -35,7 +35,6 @@ function TwitterFeed({ currentStatus }) {
     if (twitts.length > 0) {
       fetchTwitts(currentStatus, twitts[twitts.length - 1].created_at).then(
         (newTweets) => {
-          console.log(newTweets)
           setTweets((prevTwitts) => [...prevTwitts, ...newTweets]);
           if (newTweets.length < 10) {
             setHasMore(false);

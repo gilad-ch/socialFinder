@@ -65,7 +65,6 @@ function TwittContent({
     <div className={`twitt-card ${isChained ? "chained" : ""}`}>
       <div className="twitt-card-content">
         <div className="profile-header">
-          {console.log(twitt)}
           <img
             className="profile-image"
             src={twitt.user.profile_image_url}

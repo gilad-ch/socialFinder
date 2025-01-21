@@ -2,27 +2,27 @@ import React, { useState } from "react";
 import "../../css/Twitter/TwitterAdminPanel.css";
 import UsersTable from "./AdminPanel_Tables/UsersTable";
 import KeywordsTable from "./AdminPanel_Tables/KeywordsTable";
+import { UserCog, FolderSearch } from "lucide-react";
+import SelectMenu from "../general/selectMenu"; 
 
 function TwitterAdminPanel() {
-  const [activeTable, setActiveTable] = useState("users");
+  const [activeTable, setActiveTable] = useState("Users");
+  const options = [
+    { name: "Users", icon: UserCog },
+    { name: "Keywords", icon: FolderSearch },
+  ];
+
 
   return (
     <div className="admin-panel">
       <div className="upper-section">
-        <select
-          className="table-selector"
-          value={activeTable}
-          onChange={(e) => setActiveTable(e.target.value)}
-        >
-          <option className="table-selector-options" value="users">
-            Users
-          </option>
-          <option className="table-selector-options" value="keywords">
-            Keywords
-          </option>
-        </select>
+        <SelectMenu
+          options={options}
+          selectedOption={activeTable}
+          setSelectedOption={setActiveTable}
+        />
       </div>
-      {activeTable === "users" ? <UsersTable /> : <KeywordsTable />}
+      {activeTable === "Users" ? <UsersTable /> : <KeywordsTable />}
     </div>
   );
 }
