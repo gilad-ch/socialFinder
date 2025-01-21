@@ -1,4 +1,6 @@
 import React from "react";
+import { useContext } from "react";
+import { DashboardContext } from "../../contexts/DashboardContext";
 import { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -6,7 +8,8 @@ import TwittCard from "./TwittCard";
 import { fetchTwitts } from "../../services/api";
 import "../../css/Twitter/TwitterFeed.css";
 
-function TwitterFeed({ currentStatus }) {
+function TwitterFeed() {
+  const { currentStatus } = useContext(DashboardContext);
   const [twitts, setTweets] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -68,7 +71,6 @@ function TwitterFeed({ currentStatus }) {
                 key={twitt._id}
                 twitt={twitt}
                 uiDeleteTwitt={handleUIDeleteTwitt}
-                currentStatus={currentStatus}
               />
             ))}
           </div>

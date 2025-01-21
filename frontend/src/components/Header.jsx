@@ -1,11 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
 import React from "react";
+import { useContext } from "react";
+import { PlatformContext } from "../contexts/PlatformContext";
 import { Twitter, Send, Instagram, ChevronDown, Ship } from "lucide-react";
 import { useState } from "react";
 import SelectMenu from "./general/selectMenu"; // If the file is named selectMenu.jsx
 import "../css/Header.css";
 
-function Header({ selectedPlatform, setSelectedPlatform }) {
+function Header() {
+  const { selectedPlatform, setSelectedPlatform } = useContext(PlatformContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 

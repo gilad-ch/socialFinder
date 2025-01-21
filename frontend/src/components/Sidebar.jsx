@@ -1,9 +1,12 @@
 import React from "react";
+import { useContext } from "react";
+import { DashboardContext } from "../contexts/DashboardContext";
 import { useState } from "react";
 import { UserCheck, Bookmark, ScanEye, FileSearch2 } from "lucide-react";
 import "../css/Sidebar.css";
 
-function Sidebar({ currentStatus, setStatus }) {
+function Sidebar() {
+  const { currentStatus, setCurrentStatus } = useContext(DashboardContext);
   const statuses = [
     {
       name: "Monitored Users",
@@ -39,7 +42,7 @@ function Sidebar({ currentStatus, setStatus }) {
               className={`status-button ${
                 currentStatus === status.statusCode ? "active" : ""
               }`}
-              onClick={() => setStatus(status.statusCode)}
+              onClick={() => setCurrentStatus(status.statusCode)}
               style={{ "--status-color": status.color }}
             >
               <status.icon size={24} />

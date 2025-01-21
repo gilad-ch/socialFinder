@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useContext } from "react";
+import { DashboardContext } from "../../contexts/DashboardContext";
 import TwitterMessage from "./TwitterMessage";
 import {
   ChevronDown,
@@ -134,15 +136,15 @@ function TwittContent({
           </a>
         </div>
         {twitt.retweet && Object.keys(twitt.retweet).length > 0 && (
-        <div className="retwitts">
-          <TwittContent
-            key={twitt.retweet.twitt_id}
-            twitt={twitt.retweet}
-            showActions={false}
-            isChained={true}
-            currentStatus={currentStatus}
-          />
-        </div>
+          <div className="retwitts">
+            <TwittContent
+              key={twitt.retweet.twitt_id}
+              twitt={twitt.retweet}
+              showActions={false}
+              isChained={true}
+              currentStatus={currentStatus}
+            />
+          </div>
         )}
         {showActions && (
           <div className="action-buttons">
@@ -204,7 +206,8 @@ function TwittContent({
   );
 }
 
-function TwittCard({ twitt, uiDeleteTwitt, currentStatus }) {
+function TwittCard({ twitt, uiDeleteTwitt }) {
+  const { currentStatus } = useContext(DashboardContext);
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpand = () => {

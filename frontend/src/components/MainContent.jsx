@@ -1,14 +1,19 @@
 import React from "react";
+import { useContext } from "react";
+import { DashboardContext } from "../contexts/DashboardContext";
+import { PlatformContext } from "../contexts/PlatformContext";
 import TwitterFeed from "./Twitter/TwitterFeed";
 import PlatformInProgress from "./PlatformInProgress";
 import "../css/MainContent.css";
 
-function MainContent({ selectedPlatform, currentStatus }) {
+function MainContent() {
+  const { currentStatus } = useContext(DashboardContext);
+  const { selectedPlatform } = useContext(PlatformContext);
   const renderContent = () => {
     if (selectedPlatform === "Twitter") {
-      return <TwitterFeed currentStatus={currentStatus} />;
+      return <TwitterFeed />;
     } else {
-      return <PlatformInProgress platform={selectedPlatform} />;
+      return <PlatformInProgress />;
     }
   };
 

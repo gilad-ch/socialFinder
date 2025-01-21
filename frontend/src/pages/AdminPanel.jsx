@@ -1,9 +1,12 @@
 import React from "react";
+import { useContext } from "react";
+import { PlatformContext } from "../contexts/PlatformContext";
 import TwitterAdminPanel from "../components/Twitter/TwitterAdminPanel";
 import { Twitter } from "lucide-react";
 import "../css/Twitter/TwitterAdminPanel.css";
 
-function AdminPanel({ selectedPlatform }) {
+function AdminPanel() {
+  const { selectedPlatform } = useContext(PlatformContext);
   if (selectedPlatform === "Twitter") {
     return <TwitterAdminPanel />;
   }

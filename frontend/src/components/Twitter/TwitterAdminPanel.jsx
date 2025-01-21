@@ -3,7 +3,7 @@ import "../../css/Twitter/TwitterAdminPanel.css";
 import UsersTable from "./AdminPanel_Tables/UsersTable";
 import KeywordsTable from "./AdminPanel_Tables/KeywordsTable";
 import { UserCog, FolderSearch } from "lucide-react";
-import SelectMenu from "../general/selectMenu"; 
+import SelectMenu from "../general/selectMenu";
 
 function TwitterAdminPanel() {
   const [activeTable, setActiveTable] = useState("Users");
@@ -11,7 +11,6 @@ function TwitterAdminPanel() {
     { name: "Users", icon: UserCog },
     { name: "Keywords", icon: FolderSearch },
   ];
-
 
   return (
     <div className="admin-panel">
