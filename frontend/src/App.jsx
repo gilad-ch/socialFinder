@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { PlatformProvider } from "./contexts/PlatformContext";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
