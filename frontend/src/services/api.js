@@ -134,7 +134,7 @@ export async function fetchTwitts(
     }`;
 
     // Add keywords to the URL if provided
-    if (keywords) {
+    if (keywords && keywords.length > 0) {
       keywords.forEach((kw) => {
         url += `&keyword=${encodeURIComponent(kw)}`;
       });

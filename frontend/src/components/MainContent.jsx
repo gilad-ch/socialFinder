@@ -7,7 +7,6 @@ import PlatformInProgress from "./PlatformInProgress";
 import "../css/MainContent.css";
 
 function MainContent() {
-  const { currentStatus } = useContext(DashboardContext);
   const { selectedPlatform } = useContext(PlatformContext);
   const renderContent = () => {
     if (selectedPlatform === "Twitter") {

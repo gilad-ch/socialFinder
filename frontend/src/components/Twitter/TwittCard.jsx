@@ -26,6 +26,7 @@ function TwittContent({
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalImage, setModalImage] = useState("");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const { filters, updateFilter } = useContext(DashboardContext);
 
   const openModal = (imageSrc) => {
     setModalImage(imageSrc);
@@ -63,6 +64,13 @@ function TwittContent({
     return media.includes(".mp4");
   };
 
+  const handleAddFilterKeyword = (keyword) => {
+    if (!filters.keywords.includes(keyword)) {
+      const updatedKeywords = [...filters.keywords, keyword];
+      updateFilter("keywords", updatedKeywords);
+    }
+  };
+
   return (
     <div className={`twitt-card ${isChained ? "chained" : ""}`}>
       <div className="twitt-card-content">
@@ -88,7 +96,11 @@ function TwittContent({
         </div>
         {twitt.keyword && (
           <div className="twitt-keyword">
-            <span className="keyword-value" title="Search keyword">
+            <span
+              className="keyword-value"
+              title="Search keyword"
+              onClick={() => handleAddFilterKeyword(twitt.keyword)}
+            >
               <Search size={14} className="keyword-icon" />
               {twitt.keyword}
             </span>

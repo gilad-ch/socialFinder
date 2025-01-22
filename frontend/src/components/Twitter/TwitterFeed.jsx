@@ -1,42 +1,43 @@
-import React from "react";
-import { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { DashboardContext } from "../../contexts/DashboardContext";
-import { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TwittCard from "./TwittCard";
 import { fetchTwitts } from "../../services/api";
+import FilterChips from "./FilterChips";
 import "../../css/Twitter/TwitterFeed.css";
 
 function TwitterFeed() {
-  const { currentStatus } = useContext(DashboardContext);
+  const { currentStatus, filters } = useContext(DashboardContext); // Combine useContext calls
   const [twitts, setTweets] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  // Refetch tweets if current status is changed
+  // Fetch tweets when currentStatus changes
   useEffect(() => {
-    setLoading(true); // Start loading
-    fetchTwitts(currentStatus)
+    setLoading(true);
+    fetchTwitts(currentStatus, null, filters.keywords)
       .then((tweets) => {
         setTweets(tweets);
-        setHasMore(tweets.length >= 10); // Set hasMore based on initial fetch
+        setHasMore(tweets.length >= 10); // Check if there are more tweets
       })
       .finally(() => {
-        setLoading(false); // End loading
+        setLoading(false);
       });
-  }, [currentStatus]);
+  }, [currentStatus, filters]);
 
-  // Function to handle the deletion of a tweet - only in the UI
+  // Remove a tweet from the UI
   const handleUIDeleteTwitt = (tweet_id) => {
     setTweets((prevTwitts) =>
       prevTwitts.filter((twitt) => twitt.tweet_id !== tweet_id)
     );
   };
 
+  // Fetch more tweets for infinite scroll
   const fetchMoreTwitts = async () => {
     if (twitts.length > 0) {
-      fetchTwitts(currentStatus, twitts[twitts.length - 1].created_at).then(
+      const lastTweetDate = twitts[twitts.length - 1].created_at;
+      fetchTwitts(currentStatus, lastTweetDate, filters.keywords).then(
         (newTweets) => {
           setTweets((prevTwitts) => [...prevTwitts, ...newTweets]);
           if (newTweets.length < 10) {
@@ -66,7 +67,7 @@ function TwitterFeed() {
           }
         >
           <div className="twitter-feed">
-            {twitts.map((twitt, index) => (
+            {twitts.map((twitt) => (
               <TwittCard
                 key={twitt._id}
                 twitt={twitt}

@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { DashboardContext } from "../contexts/DashboardContext";
 import { useState } from "react";
 import { UserCheck, Bookmark, ScanEye, FileSearch2 } from "lucide-react";
+import FilterChips from "./Twitter/FilterChips";
 import "../css/Sidebar.css";
 
 function Sidebar() {
@@ -33,7 +34,7 @@ function Sidebar() {
       </button>
       <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
-          <h2>Status Filter</h2>
+          <h2>Filters menu</h2>
         </div>
         <nav className="sidebar-nav">
           {statuses.map((status) => (
@@ -50,6 +51,7 @@ function Sidebar() {
             </button>
           ))}
         </nav>
+        <FilterChips />
       </aside>
     </div>
   );
