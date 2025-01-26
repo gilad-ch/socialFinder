@@ -3,15 +3,27 @@ import { DashboardContext } from "../../contexts/DashboardContext";
 import { ClipLoader } from "react-spinners";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TwittCard from "./TwittCard";
-import { fetchTwitts } from "../../services/api";
+import { fetchTwitts, fetchKeywords } from "../../services/api";
 import FilterChips from "./FilterChips";
 import "../../css/Twitter/TwitterFeed.css";
+import MultiSelect from "../general/MultiSelect";
 
 function TwitterFeed() {
-  const { currentStatus, filters } = useContext(DashboardContext); // Combine useContext calls
+  const { currentStatus, filters, updateFilter } = useContext(DashboardContext); // Combine useContext calls
   const [twitts, setTweets] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [keywordList, setKeywordList] = useState([]);
+
+  // Fetch keywords on component mount
+  useEffect(() => {
+    fetchKeywords()
+      .then((keywords) => {
+        const keywordList = keywords.map((kw_obj) => kw_obj.keyword);
+        setKeywordList(keywordList);
+      })
+      .catch((error) => console.error("Error fetching keywords:", error));
+  }, []);
 
   // Fetch tweets when currentStatus changes
   useEffect(() => {
@@ -48,8 +60,22 @@ function TwitterFeed() {
     }
   };
 
+  const handleKeywordSelected = (selectedKeywords) => {
+    updateFilter("keywords", selectedKeywords);
+  };
+
   return (
     <div className="twitter-feed-container">
+      <div className="feed-header">
+        <MultiSelect
+          options={keywordList}
+          selectedOptions={filters.keywords}
+          placeholder="Keywords Filter..."
+          onChange={handleKeywordSelected}
+        />
+        <FilterChips />
+      </div>
+
       {loading ? (
         <div className="spinner-container-center">
           <ClipLoader color="#3b82f6" loading={true} size={50} />

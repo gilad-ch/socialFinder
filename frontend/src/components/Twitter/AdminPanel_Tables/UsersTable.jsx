@@ -33,6 +33,7 @@ function TwitterAdminPanel() {
 
   const handleAddUser = (e) => {
     e.preventDefault();
+    setShowAddForm(false);
     if (newInput) {
       postUser(newInput).then((result) => {
         setUsers([
@@ -40,7 +41,6 @@ function TwitterAdminPanel() {
           { username: result.username, last_scan: "Not scanned yet" },
         ]);
         setNewInput("");
-        setShowAddForm(false);
       });
     }
   };

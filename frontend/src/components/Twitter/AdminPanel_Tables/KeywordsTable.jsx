@@ -37,6 +37,7 @@ function TwitterAdminPanel() {
 
   const handleAddKeyword = (e) => {
     e.preventDefault();
+    setShowAddForm(false);
     if (newInput) {
       postKeyword(newInput).then((result) => {
         setKeywords([
@@ -48,7 +49,6 @@ function TwitterAdminPanel() {
           },
         ]);
         setNewInput("");
-        setShowAddForm(false);
       });
     }
   };
@@ -104,9 +104,7 @@ function TwitterAdminPanel() {
             <div className="modal" onClick={() => setShowDeleteConfirm(null)}>
               <div className="modal-content">
                 <h3>Are you sure?</h3>
-                <p>
-                  Do you want to delete the keyword?
-                </p>
+                <p>Do you want to delete the keyword?</p>
                 <div className="modal-actions">
                   <button onClick={() => handleDelete(showDeleteConfirm)}>
                     Yes

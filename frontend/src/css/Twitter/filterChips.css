@@ -1,42 +1,42 @@
 .filters-container {
-    margin: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 10px;
+  margin: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
 }
 
 .filter-chip {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 10px;
-    font-size: 0.9em;
-    margin: 0.5em 0;
-    gap: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 0.9em;
+  margin: 0.5em 0;
+  gap: 0.5em;
 }
 
 .chip-value {
-    cursor: pointer;
-    background-color: var(--accent-color, #0073e6);
-    color: white;
-    padding: 4px 8px;
-    border-radius: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    /* Space between the icon and the keyword */
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  background-color: var(--accent-color, #0073e6);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  /* Space between the icon and the keyword */
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .chip-value:hover {
-    background-color: var(--accent-hover-color, #005bb5);
-    transform: scale(1.05);
+  background-color: var(--accent-hover-color, #005bb5);
+  transform: scale(1.05);
 }
 
 .x-icon {
-    color: white;
-    /* Make the icon white for contrast */
+  color: white;
+  /* Make the icon white for contrast */
 }

@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { DashboardContext } from "../contexts/DashboardContext";
 import { useState } from "react";
 import { UserCheck, Bookmark, ScanEye, FileSearch2 } from "lucide-react";
-import FilterChips from "./Twitter/FilterChips";
 import "../css/Sidebar.css";
 
 function Sidebar() {
@@ -51,7 +50,6 @@ function Sidebar() {
             </button>
           ))}
         </nav>
-        <FilterChips />
       </aside>
     </div>
   );
