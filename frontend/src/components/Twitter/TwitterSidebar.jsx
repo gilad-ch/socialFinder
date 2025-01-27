@@ -5,7 +5,7 @@ import { UserCheck, Bookmark, ScanEye, FileSearch2 } from "lucide-react";
 import "../../css/Sidebar.css";
 import MultiSelect from "../general/MultiSelect";
 import SingleSelect from "../general/SingleSelect";
-import { fetchKeywords } from "../../services/api";
+import { fetchKeywords, fetchUsers } from "../../services/api";
 
 function Sidebar() {
   const { currentStatus, setCurrentStatus, filters, updateFilter } =
@@ -26,6 +26,16 @@ function Sidebar() {
       .then((keywords) => {
         const keywordList = keywords.map((kw_obj) => kw_obj.keyword);
         setKeywordList(keywordList);
+      })
+      .catch((error) => console.error("Error fetching keywords:", error));
+  }, []);
+
+  // Fetch users on component mount
+  useEffect(() => {
+    fetchUsers()
+      .then((users) => {
+        const usersList = users.map((user_obj) => user_obj.username);
+        setUsers(usersList);
       })
       .catch((error) => console.error("Error fetching keywords:", error));
   }, []);
@@ -82,7 +92,7 @@ function Sidebar() {
             />
           )}
           <SingleSelect
-            options={keywordList}
+            options={Users}
             selectedOptions={null}
             placeholder="users Filters"
             onChange={handleUserSelected}

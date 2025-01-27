@@ -24,6 +24,9 @@ function SingleSelect({
   );
 
   const selectOption = (option) => {
+    if (option === internalSelectedOption) {
+      option = null;
+    }
     setInternalSelectedOption(option);
     onChange(option);
     setIsOpen(false); // Close the dropdown after selecting an option
