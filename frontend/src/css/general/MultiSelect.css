@@ -7,11 +7,12 @@
 }
 
 .multiselect-header {
+  max-width: 100%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 15px;
   border-radius: 4px;
   cursor: pointer;
   background-color: #323a42;
@@ -21,6 +22,7 @@
   font-family: "Montserrat", sans-serif;
   cursor: pointer;
   flex-grow: 1;
+  max-width: 100%;
   background-color: transparent;
   border: none;
   color: #e0e0e0;
