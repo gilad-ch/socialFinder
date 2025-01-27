@@ -1,10 +1,8 @@
 .multiselect-container {
   margin-bottom: 1rem;
-  position: sticky;
-  top: 0;
-  z-index: 10; /* Ensure it stays on top of other content */
   position: relative;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   color: #e0e0e0;
 }
 
@@ -16,7 +14,7 @@
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
-  background-color: var(--surface-light);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .search-input {
@@ -31,7 +29,7 @@
 }
 
 .search-input::placeholder {
-  color: var(--gray-300);
+  color: var(--gray-400);
 }
 
 .selected-options {
@@ -87,7 +85,7 @@
   right: 0;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
-  background-color: var(--surface-light);
+  background-color: rgba(255, 255, 255, 0.1);
   max-height: 200px;
   overflow-y: auto;
   z-index: 1000;
@@ -107,7 +105,7 @@
 }
 
 .option:hover {
-  background-color: var(--gray-200);
+  background-color: rgba(255, 255, 255, 0.071);
 }
 
 .option input[type="checkbox"] {

@@ -1,12 +1,28 @@
 import React from "react";
-import { useContext } from "react";
 import { DashboardContext } from "../contexts/DashboardContext";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { UserCheck, Bookmark, ScanEye, FileSearch2 } from "lucide-react";
 import "../css/Sidebar.css";
+import MultiSelect from "./general/MultiSelect";
+import { fetchKeywords } from "../services/api";
 
 function Sidebar() {
-  const { currentStatus, setCurrentStatus } = useContext(DashboardContext);
+  const { currentStatus, setCurrentStatus, filters, updateFilter } =
+    useContext(DashboardContext);
+  const [keywordList, setKeywordList] = useState([]);
+  const handleKeywordSelected = (selectedKeywords) => {
+    updateFilter("keywords", selectedKeywords);
+  };
+
+  // Fetch keywords on component mount
+  useEffect(() => {
+    fetchKeywords()
+      .then((keywords) => {
+        const keywordList = keywords.map((kw_obj) => kw_obj.keyword);
+        setKeywordList(keywordList);
+      })
+      .catch((error) => console.error("Error fetching keywords:", error));
+  }, []);
   const statuses = [
     {
       name: "Monitored Users",
@@ -50,6 +66,14 @@ function Sidebar() {
             </button>
           ))}
         </nav>
+        <div className="filters-section">
+          <MultiSelect
+            options={keywordList}
+            selectedOptions={filters.keywords}
+            placeholder="Keywords Filter..."
+            onChange={handleKeywordSelected}
+          />
+        </div>
       </aside>
     </div>
   );
