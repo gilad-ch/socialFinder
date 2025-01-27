@@ -45,26 +45,35 @@ class TwitterDB:
             date_limit = time.time()
 
         query = {"created_at": {"$lt": date_limit}}
+        and_conditions = []
 
+        # Add user ID condition
         if user_id:
-            query["user.id"] = user_id
+            and_conditions.append({"user.id": user_id})
 
+        # Add keywords condition
         if keywords:
-            query["keyword"] = {"$in": keywords}
+            and_conditions.append({"keyword": {"$in": keywords}})
 
+        # Add search condition (text search)
         if search:
-            # Case-insensitive search
-            query["$text"] = {"$search": search}
+            and_conditions.append({"$text": {"$search": search}})
 
-        if status:
-            query["status"] = status
+        # Add status condition
+        if status is not None:
+            and_conditions.append({"status": status})
 
+        # Add $and conditions to the query if there are any
+        if and_conditions:
+            query["$and"] = and_conditions
+        
+        # Pagination and sorting
         frame_size = 10
-        tweets_cursor = self.tweets.find(query).sort(
-            "created_at", -1).limit(frame_size)
+        tweets_cursor = self.tweets.find(query).sort("created_at", -1).limit(frame_size)
         tweets = await tweets_cursor.to_list(length=frame_size)
 
         return [self.id_to_str(tweet) for tweet in tweets]
+
 
     async def get_users(self):
         users_cursor = self.users.find({})
