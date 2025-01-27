@@ -6,7 +6,7 @@ function DashboardProvider({ children }) {
   const [currentStatus, setCurrentStatus] = useState(0);
   const [filters, setFilters] = useState({
     keywords: [],
-    userId: null,
+    username: null,
   });
 
   const updateFilter = (key, value) => {

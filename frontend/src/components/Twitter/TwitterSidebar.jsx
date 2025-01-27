@@ -13,8 +13,8 @@ function Sidebar() {
   const [keywordList, setKeywordList] = useState([]);
   const [Users, setUsers] = useState();
 
-  const handleUserSelected = (selectedUserID) => {
-    updateFilter("userId", selectedUserID);
+  const handleUserSelected = (selectedUsername) => {
+    updateFilter("username", selectedUsername);
   };
   const handleKeywordSelected = (selectedKeywords) => {
     updateFilter("keywords", selectedKeywords);
@@ -94,7 +94,7 @@ function Sidebar() {
           <SingleSelect
             options={Users}
             selectedOptions={null}
-            placeholder="users Filters"
+            placeholder="Users Filters"
             onChange={handleUserSelected}
           />
         </div>

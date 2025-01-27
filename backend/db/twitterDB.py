@@ -37,7 +37,7 @@ class TwitterDB:
         self,
         status: int = None,
         date_limit: float = None,
-        user_id: str = None,
+        username: str = None,
         keywords: list = None,
         search: str = None
     ):
@@ -48,8 +48,8 @@ class TwitterDB:
         and_conditions = []
 
         # Add user ID condition
-        if user_id:
-            and_conditions.append({"user.id": user_id})
+        if username:
+            and_conditions.append({"user.username": username})
 
         # Add keywords condition
         if keywords:
@@ -66,14 +66,14 @@ class TwitterDB:
         # Add $and conditions to the query if there are any
         if and_conditions:
             query["$and"] = and_conditions
-        
+
         # Pagination and sorting
         frame_size = 10
-        tweets_cursor = self.tweets.find(query).sort("created_at", -1).limit(frame_size)
+        tweets_cursor = self.tweets.find(query).sort(
+            "created_at", -1).limit(frame_size)
         tweets = await tweets_cursor.to_list(length=frame_size)
 
         return [self.id_to_str(tweet) for tweet in tweets]
-
 
     async def get_users(self):
         users_cursor = self.users.find({})

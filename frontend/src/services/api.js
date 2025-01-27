@@ -124,7 +124,7 @@ export async function fetchTwitts(
   status = 0,
   cursor = null,
   keywords = null,
-  user_id = null,
+  username = null,
   search = null
 ) {
   try {
@@ -141,8 +141,8 @@ export async function fetchTwitts(
     }
 
     // Add user_id to the URL if provided
-    if (user_id) {
-      url += `&user_id=${user_id}`;
+    if (username) {
+      url += `&username=${username}`;
     }
 
     // Add search to the URL if provided (this is for case-insensitive search)

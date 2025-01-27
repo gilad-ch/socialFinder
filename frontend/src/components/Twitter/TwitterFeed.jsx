@@ -16,7 +16,7 @@ function TwitterFeed() {
   // Fetch tweets when currentStatus changes
   useEffect(() => {
     setLoading(true);
-    fetchTwitts(currentStatus, null, filters.keywords)
+    fetchTwitts(currentStatus, null, filters.keywords, filters.username)
       .then((tweets) => {
         setTweets(tweets);
         setHasMore(tweets.length >= 10); // Check if there are more tweets
@@ -37,14 +37,17 @@ function TwitterFeed() {
   const fetchMoreTwitts = async () => {
     if (twitts.length > 0) {
       const lastTweetDate = twitts[twitts.length - 1].created_at;
-      fetchTwitts(currentStatus, lastTweetDate, filters.keywords).then(
-        (newTweets) => {
-          setTweets((prevTwitts) => [...prevTwitts, ...newTweets]);
-          if (newTweets.length < 10) {
-            setHasMore(false);
-          }
+      fetchTwitts(
+        currentStatus,
+        lastTweetDate,
+        filters.keywords,
+        filters.username
+      ).then((newTweets) => {
+        setTweets((prevTwitts) => [...prevTwitts, ...newTweets]);
+        if (newTweets.length < 10) {
+          setHasMore(false);
         }
-      );
+      });
     }
   };
 

@@ -108,17 +108,17 @@ async def delete_keyword(document_id: str = Path(..., title="Document ID", descr
 
 
 @router.get("/tweets", response_model=List[Tweet])
-async def get_tweets(status: Optional[int] = None, cursor: Optional[float] = None, user_id: Optional[str] = None,
+async def get_tweets(status: Optional[int] = None, cursor: Optional[float] = None, username: Optional[str] = None,
                      keyword: Optional[List[str]] = Query(None), search: Optional[str] = None):
     if status is not None:
         if status < 0 or status >= 3:
             raise HTTPException(
                 status_code=400, detail="Invalid status format. Allowed values: 0, 1, 2."
             )
-    if user_id:
-        if not re.match(patterns["twitter_user_id_pattern"], user_id):
+    if username:
+        if not re.match(patterns["twitter_keyword_pattern"], username):
             raise HTTPException(
-                status_code=400, detail="Invalid user_id format."
+                status_code=400, detail="Invalid username format."
             )
     if keyword:
         for kw in keyword:
@@ -133,7 +133,7 @@ async def get_tweets(status: Optional[int] = None, cursor: Optional[float] = Non
             )
 
     tweets = await twitter_db.get_tweets(status=status, date_limit=cursor, keywords=keyword,
-                                         user_id=user_id, search=search)
+                                         username=username, search=search)
     return tweets
 
 
