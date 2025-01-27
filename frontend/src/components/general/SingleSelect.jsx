@@ -1,34 +1,32 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../../css/general/MultiSelect.css";
+import "../../css/general/SingleSelect.css";
 
-function MultiSelect({
+function SingleSelect({
   options = [],
-  selectedOptions = [],
-  placeholder = "Select options...",
+  selectedOption = "",
+  placeholder = "Select an option...",
   onChange = () => {},
 }) {
-  const [internalSelectedOptions, setInternalSelectedOptions] =
-    useState(selectedOptions);
+  const [internalSelectedOption, setInternalSelectedOption] =
+    useState(selectedOption);
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef();
   const inputRef = useRef(); // Ref for the input element
 
-  // Synchronize internal state with selectedOptions prop
+  // Synchronize internal state with selectedOption prop
   useEffect(() => {
-    setInternalSelectedOptions(selectedOptions);
-  }, [selectedOptions]);
+    setInternalSelectedOption(selectedOption);
+  }, [selectedOption]);
 
   const filteredOptions = options.filter((option) =>
     option.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const toggleOption = (option) => {
-    const updatedSelection = internalSelectedOptions.includes(option)
-      ? internalSelectedOptions.filter((item) => item !== option)
-      : [...internalSelectedOptions, option];
-    setInternalSelectedOptions(updatedSelection);
-    onChange(updatedSelection);
+  const selectOption = (option) => {
+    setInternalSelectedOption(option);
+    onChange(option);
+    setIsOpen(false); // Close the dropdown after selecting an option
   };
 
   // Close dropdown when clicking outside
@@ -77,18 +75,29 @@ function MultiSelect({
             : {}
         }
       >
+        {internalSelectedOption && (
+          <button
+            className="reset-icon"
+            size={16}
+            onClick={(e) => {
+              e.stopPropagation();
+              selectOption(null);
+            }}
+          >
+            x
+          </button>
+        )}
         <input
           ref={inputRef}
           className="search-input"
           placeholder={
-            selectedOptions.length > 0
-              ? `${placeholder} | ${selectedOptions.length}`
-              : placeholder
+            internalSelectedOption ? `${internalSelectedOption}` : placeholder
           }
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+
         <span className={`arrow ${isOpen ? "up" : "down"}`}></span>
       </div>
 
@@ -102,15 +111,10 @@ function MultiSelect({
               <li
                 key={option}
                 className={`option ${
-                  internalSelectedOptions.includes(option) ? "selected" : ""
+                  internalSelectedOption === option ? "selected" : ""
                 }`}
-                onClick={() => toggleOption(option)}
+                onClick={() => selectOption(option)}
               >
-                <input
-                  type="checkbox"
-                  checked={internalSelectedOptions.includes(option)}
-                  readOnly
-                />
                 {option}
               </li>
             ))}
@@ -121,4 +125,4 @@ function MultiSelect({
   );
 }
 
-export default MultiSelect;
+export default SingleSelect;

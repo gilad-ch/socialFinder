@@ -40,7 +40,9 @@
   gap: 5px;
   margin-top: 10px;
 }
-
+.selected {
+  background-color: #747c7c3a;
+}
 .selected-option {
   background-color: #3a3a3a;
   padding: 2px 5px;
@@ -109,7 +111,20 @@
   background-color: rgba(255, 255, 255, 0.071);
 }
 
-.option input[type="checkbox"] {
-  margin-right: 10px;
-  accent-color: var(--primary);
+.reset-icon {
+  background: none; /* Remove default button background */
+  border: none; /* Remove default button border */
+  color: #f56565; /* Icon/text color */
+  font-size: 16px; /* Size of the "x" */
+  cursor: pointer; /* Pointer cursor on hover */
+  padding: 0; /* Remove extra padding */
+  margin-right: 10px; /* Add spacing from adjacent elements */
+  display: flex; /* Center alignment */
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease-in-out; /* Smooth color transition */
+}
+
+.reset-icon:hover {
+  color: #f04f4f; /* Change color on hover (e.g., red) */
 }

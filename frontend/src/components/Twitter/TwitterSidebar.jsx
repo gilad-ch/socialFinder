@@ -4,12 +4,18 @@ import { useState, useEffect, useContext } from "react";
 import { UserCheck, Bookmark, ScanEye, FileSearch2 } from "lucide-react";
 import "../../css/Sidebar.css";
 import MultiSelect from "../general/MultiSelect";
+import SingleSelect from "../general/SingleSelect";
 import { fetchKeywords } from "../../services/api";
 
 function Sidebar() {
   const { currentStatus, setCurrentStatus, filters, updateFilter } =
     useContext(DashboardContext);
   const [keywordList, setKeywordList] = useState([]);
+  const [Users, setUsers] = useState();
+
+  const handleUserSelected = (selectedUserID) => {
+    updateFilter("userId", selectedUserID);
+  };
   const handleKeywordSelected = (selectedKeywords) => {
     updateFilter("keywords", selectedKeywords);
   };
@@ -49,7 +55,7 @@ function Sidebar() {
       </button>
       <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
-          <h2>Filters menu</h2>
+          <h2>Dashboard</h2>
         </div>
         <nav className="sidebar-nav">
           {statuses.map((status) => (
@@ -71,10 +77,16 @@ function Sidebar() {
             <MultiSelect
               options={keywordList}
               selectedOptions={filters.keywords}
-              placeholder="Keywords Filter..."
+              placeholder="Keywords Filters"
               onChange={handleKeywordSelected}
             />
           )}
+          <SingleSelect
+            options={keywordList}
+            selectedOptions={null}
+            placeholder="users Filters"
+            onChange={handleUserSelected}
+          />
         </div>
       </aside>
     </div>
