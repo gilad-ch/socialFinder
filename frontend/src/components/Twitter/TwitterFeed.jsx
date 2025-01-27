@@ -66,6 +66,11 @@ function TwitterFeed() {
               <ClipLoader color="#3b82f6" loading={true} size={30} />
             </div>
           }
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>No more Tweets</b>
+            </p>
+          }
         >
           <div className="twitter-feed">
             {twitts.map((twitt) => (
