@@ -8,7 +8,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 logger = logging.getLogger(__name__)
 
-setup_logging()
+setup_logging(log_file='TwitterScheduler.log')
 
 twitter_db = TwitterDB()
 
