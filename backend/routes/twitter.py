@@ -12,11 +12,12 @@ router = APIRouter(prefix="/twitter")
 
 patterns = {
     'twitter_keyword_pattern': r'^[a-zA-Z0-9" \u0590-\u05FF\u0600-\u06FF]{1,15}$',
-    'twitter_username_pattern': r'^@[a-zA-Z0-9_]{1,15}$',
+    'twitter_@username_pattern': r'^@[a-zA-Z0-9_]{1,15}$',
+    'twitter_username_pattern': r'^[a-zA-Z0-9_]{1,15}$',
     'twitter_user_id_pattern': r'^[a-zA-Z0-9]{1,20}$'
 }
 
-
+        
 # ---------------- Admin Pannel - Users ----------------
 
 
@@ -24,7 +25,7 @@ patterns = {
 async def add_monitored_user(username: str):
     # validate user
     users = await twitter_db.get_users()
-    if not re.match(patterns["twitter_username_pattern"], username):
+    if not re.match(patterns["twitter_@username_pattern"], username):
         raise HTTPException(
             status_code=400, detail="Incorrect username format")
     username = username[1:]
@@ -116,7 +117,7 @@ async def get_tweets(status: Optional[int] = None, cursor: Optional[float] = Non
                 status_code=400, detail="Invalid status format. Allowed values: 0, 1, 2."
             )
     if username:
-        if not re.match(patterns["twitter_keyword_pattern"], username):
+        if not re.match(patterns["twitter_username_pattern"], username):
             raise HTTPException(
                 status_code=400, detail="Invalid username format."
             )

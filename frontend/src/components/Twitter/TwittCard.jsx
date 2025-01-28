@@ -12,7 +12,9 @@ import {
 import Linkify from "linkify-react";
 import "../../css/Twitter/TwittCard.css";
 import moment from "moment";
-import { updateTweetStatus, deleteTweet } from "../../services/api";
+import { updateTweetStatus, deleteTweet } from "../../services/twitterApi";
+import { translateText } from "../../services/generalApi";
+
 
 const convertTimestampToDate = (ts) => moment(ts).format("LLL");
 
@@ -27,6 +29,8 @@ function TwittContent({
   const [modalImage, setModalImage] = useState("");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { filters, updateFilter } = useContext(DashboardContext);
+  const [translatedText, setTranslatedText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const openModal = (imageSrc) => {
     setModalImage(imageSrc);
@@ -71,6 +75,29 @@ function TwittContent({
     }
   };
 
+  const handleTranslate = async () => {
+    setIsLoading(true);
+    try {
+      const translated = await translateText(twitt.text);
+      setTranslatedText(translated); 
+    } catch (error) {
+      console.error("Error translating text: ", error);
+    }
+   finally {
+    setIsLoading(false); 
+  }
+  };
+
+  const handleOriginalText = async () => {
+    setTranslatedText(""); 
+  }
+
+  const isHebrew = (text) => {
+    // Regex to check if the text contains Hebrew characters
+    const hebrewRegex = /[\u0590-\u05FF]/;
+    return hebrewRegex.test(text);
+  };
+
   return (
     <div className={`twitt-card ${isChained ? "chained" : ""}`}>
       <div className="twitt-card-content">
@@ -106,9 +133,12 @@ function TwittContent({
             </span>
           </div>
         )}
-        <p className="twitt-text">
-          <TwitterMessage twitt={twitt} />
-        </p>
+        {twitt.text &&
+        (<p className="twitt-text">
+        {translatedText ? translatedText : <TwitterMessage twitt={twitt} />}
+        </p>)}
+        {!isHebrew(twitt.text) && twitt.text !== "" && !translatedText && (<button className="translate-button" onClick={handleTranslate}>{isLoading ? (<div className="spinner"></div>) : "Translate"}</button>)}
+        {translatedText && (<button className="translate-button" onClick={handleOriginalText}>Original Text</button>)}
         <div className="twitt-media">
           {twitt.media &&
             twitt.media.map((mediaLink, index) =>
@@ -162,12 +192,6 @@ function TwittContent({
           <div className="action-buttons">
             {(currentStatus === 0 || currentStatus === 2) && (
               <>
-                {/* <button
-                  className="action-button approve"
-                  onClick={() => handleAprovedTwitt()}
-                >
-                  Approve
-                </button> */}
                 <button
                   className="action-button save"
                   onClick={() => handleSaveTwitt()}

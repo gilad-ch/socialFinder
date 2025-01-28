@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Trash2, Plus } from "lucide-react";
 import { ClipLoader } from "react-spinners";
-import { fetchUsers, removeUser, postUser } from "../../../services/api";
+import { fetchUsers, removeUser, postUser } from "../../../services/twitterApi";
 import moment from "moment";
 
 const convertTimestampToDate = (ts) => moment(ts).format("LLL");

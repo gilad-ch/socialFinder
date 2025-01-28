@@ -5,7 +5,7 @@ import { UserCheck, Bookmark, ScanEye, FileSearch2 } from "lucide-react";
 import "../../css/Sidebar.css";
 import MultiSelect from "../general/MultiSelect";
 import SingleSelect from "../general/SingleSelect";
-import { fetchKeywords, fetchUsers } from "../../services/api";
+import { fetchKeywords, fetchUsers } from "../../services/twitterApi";
 
 function Sidebar() {
   const { currentStatus, setCurrentStatus, filters, updateFilter } =

@@ -377,3 +377,39 @@
 .keyword-icon {
   color: white; /* Make the icon white for contrast */
 }
+
+.translate-button {
+  border: none;
+  margin-bottom: 10px;
+  background-color: #5e5e5e48;
+  color: white; 
+  border: none;
+  padding: 4px 8px; 
+  border-radius: 4px; 
+  font-size: 14px; 
+  font-weight: 500;
+  cursor: pointer; 
+  transition: background-color 0.3s, transform 0.2s; 
+}
+
+.translate-button:hover {
+  background-color: var(--on-primary-hover, #5e5e5e60); 
+  transform: scale(1.05); 
+}
+
+/* Spinner Animation */
+.spinner {
+  border: 4px solid #4e4d4d; /* Light gray */
+  border-top: 4px solid var(--primary); /* Blue color */
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  animation: spin 2s linear infinite;
+  margin: 0 auto;
+}
+
+/* Spinner Animation Keyframes */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

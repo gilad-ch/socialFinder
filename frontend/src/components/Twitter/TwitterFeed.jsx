@@ -3,7 +3,7 @@ import { DashboardContext } from "../../contexts/DashboardContext";
 import { ClipLoader } from "react-spinners";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TwittCard from "./TwittCard";
-import { fetchTwitts } from "../../services/api";
+import { fetchTwitts } from "../../services/twitterApi";
 import FilterChips from "./FilterChips";
 import "../../css/Twitter/TwitterFeed.css";
 

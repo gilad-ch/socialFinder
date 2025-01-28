@@ -5,7 +5,7 @@ import {
   fetchKeywords,
   deleteKeyword,
   postKeyword,
-} from "../../../services/api";
+} from "../../../services/twitterApi";
 import moment from "moment";
 
 const convertTimestampToDate = (ts) => moment(ts).format("LLL");
