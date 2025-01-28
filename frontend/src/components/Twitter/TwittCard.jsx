@@ -137,7 +137,8 @@ function TwittContent({
         (<p className="twitt-text">
         {translatedText ? translatedText : <TwitterMessage twitt={twitt} />}
         </p>)}
-        {!isHebrew(twitt.text) && twitt.text !== "" && !translatedText && (<button className="translate-button" onClick={handleTranslate}>{isLoading ? (<div className="spinner"></div>) : "Translate"}</button>)}
+        {!isHebrew(twitt.text) && twitt.text !== "" && !translatedText &&
+         (<button className="translate-button" onClick={handleTranslate}>{isLoading ? (<div className="spinner"></div>) : "Translate"}</button>)}
         {translatedText && (<button className="translate-button" onClick={handleOriginalText}>Original Text</button>)}
         <div className="twitt-media">
           {twitt.media &&
