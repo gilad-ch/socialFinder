@@ -27,8 +27,7 @@ async def translate_text(text: str, target_lang: Optional[str] = 'iw'):
     if len(text) > MAX_TEXT_LENGTH:
         raise HTTPException(
             status_code=400,
-            detail=f"Text is too long. Maximum allowed length is {
-                MAX_TEXT_LENGTH} characters."
+            detail=f"Text is too long. Maximum allowed length is {MAX_TEXT_LENGTH} characters."
         )
     if not text:
         raise HTTPException(

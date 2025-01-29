@@ -7,13 +7,13 @@ const linkifyOptions = {
       target="_blank"
       rel="noopener noreferrer"
       style={{
-        color: "var(--primary)", // Default color
+        color: "var(--primary-dark)", // Default color
         textDecoration: "none",
         fontWeight: "bold",
         transition: "color 0.2s ease-in-out", // Smooth hover effect
       }}
-      onMouseEnter={(e) => (e.target.style.color = "var(--primary-dark)")} // Hover color
-      onMouseLeave={(e) => (e.target.style.color = "var(--primary)")} // Reset color
+      onMouseEnter={(e) => (e.target.style.color = "var(--primary)")} // Hover color
+      onMouseLeave={(e) => (e.target.style.color = "var(--primary-dark)")} // Reset color
     >
       {content}
     </a>
