@@ -256,7 +256,10 @@ def convert_twitter_date_to_timestamp(date: str) -> float:
 def tweet_date_verify(tweet_entity, date_limit: int):
     created_date_timestamp = None
     if is_tweet(tweet_entity):
-        created_date_str = tweet_result(tweet_entity)["legacy"]["created_at"]
+        try:
+            created_date_str = tweet_result(tweet_entity)["legacy"]["created_at"]
+        except:
+            created_date_str = tweet_result(tweet_entity)["tweet"]["legacy"]["created_at"]
         created_date_timestamp = convert_twitter_date_to_timestamp(
             created_date_str)
     elif is_conversation(tweet_entity):
