@@ -15,7 +15,6 @@ import moment from "moment";
 import { updateTweetStatus, deleteTweet } from "../../services/twitterApi";
 import { translateText } from "../../services/generalApi";
 
-
 const convertTimestampToDate = (ts) => moment(ts).format("LLL");
 
 function TwittContent({
@@ -30,6 +29,7 @@ function TwittContent({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { filters, updateFilter } = useContext(DashboardContext);
   const [translatedText, setTranslatedText] = useState("");
+  const [isTranslated, setIsTranslated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const openModal = (imageSrc) => {
@@ -78,19 +78,21 @@ function TwittContent({
   const handleTranslate = async () => {
     setIsLoading(true);
     try {
-      const translated = await translateText(twitt.text);
-      setTranslatedText(translated); 
+      if (!translatedText) {
+        const translated = await translateText(twitt.text);
+        setTranslatedText(translated);
+      }
+      setIsTranslated(true);
     } catch (error) {
       console.error("Error translating text: ", error);
+    } finally {
+      setIsLoading(false);
     }
-   finally {
-    setIsLoading(false); 
-  }
   };
 
   const handleOriginalText = async () => {
-    setTranslatedText(""); 
-  }
+    setIsTranslated(false);
+  };
 
   const isHebrew = (text) => {
     // Regex to check if the text contains Hebrew characters
@@ -133,12 +135,25 @@ function TwittContent({
             </span>
           </div>
         )}
-        {twitt.text &&
-        (<p className="twitt-text">
-        {translatedText ? translatedText : <TwitterMessage twitt={twitt} />}
-        </p>)}
-        {!isHebrew(twitt.text) && twitt.text !== "" && !translatedText && (<button className="translate-button" onClick={handleTranslate}>{isLoading ? (<div className="spinner"></div>) : "Translate"}</button>)}
-        {translatedText && (<button className="translate-button" onClick={handleOriginalText}>Original Text</button>)}
+        {twitt.text && (
+          <p className="twitt-text">
+            {isTranslated ? (
+              <TwitterMessage text={translatedText} />
+            ) : (
+              <TwitterMessage text={twitt.text} keyword={twitt.keyword} />
+            )}
+          </p>
+        )}
+        {!isHebrew(twitt.text) && twitt.text !== "" && !isTranslated && (
+          <button className="translate-button" onClick={handleTranslate}>
+            {isLoading ? <div className="spinner"></div> : "Translate"}
+          </button>
+        )}
+        {isTranslated && (
+          <button className="translate-button" onClick={handleOriginalText}>
+            Original Text
+          </button>
+        )}
         <div className="twitt-media">
           {twitt.media &&
             twitt.media.map((mediaLink, index) =>

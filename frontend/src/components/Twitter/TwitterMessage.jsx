@@ -1,49 +1,67 @@
 import React from "react";
+import Linkify from "linkify-react";
+const linkifyOptions = {
+  render: ({ attributes, content }) => (
+    <a
+      {...attributes}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        color: "var(--primary)", // Default color
+        textDecoration: "none",
+        fontWeight: "bold",
+        transition: "color 0.2s ease-in-out", // Smooth hover effect
+      }}
+      onMouseEnter={(e) => (e.target.style.color = "var(--primary-dark)")} // Hover color
+      onMouseLeave={(e) => (e.target.style.color = "var(--primary)")} // Reset color
+    >
+      {content}
+    </a>
+  ),
+};
 
-const formatText = (twitt) => {
-  const text = twitt.text;
-  const keyword = twitt.keyword;
-
+const formatText = (text, keyword = null) => {
   // Split the text by newline and process each line
   return text.split("\n").map((line, index) => (
     <React.Fragment key={index}>
-      {line.split(" ").map((word, wordIndex) => {
-        // Check if the word is a mention, hashtag, or keyword
-        const isKeyword = word.includes(keyword);
+      <Linkify options={linkifyOptions}>
+        {line.split(" ").map((word, wordIndex) => {
+          // Check if the word is a keyword
+          const isKeyword = word.includes(keyword);
 
-        // Return the word with styling if it's a mention, hashtag, or keyword
-        if (isKeyword) {
+          // Return the word with styling keyword
+          if (isKeyword) {
+            return (
+              <span
+                key={wordIndex}
+                style={{
+                  direction: "ltr",
+                  color: isKeyword ? "rgb(255, 255, 255)" : "rgb(29, 155, 240)", // Use keyword color or default
+                  fontWeight: isKeyword ? "bold" : "normal", // Bold the keyword
+                  textDecoration: "none",
+                }}
+              >
+                {word}{" "}
+              </span>
+            );
+          }
+
+          // Default rendering for normal words
           return (
-            <span
-              key={wordIndex}
-              style={{
-                direction: "ltr",
-                color: isKeyword ? "rgb(255, 255, 255)" : "rgb(29, 155, 240)", // Use keyword color or default
-                fontWeight: isKeyword ? "bold" : "normal", // Bold the keyword
-                textDecoration: "none",
-              }}
-            >
+            <span key={wordIndex} style={{ direction: "ltr" }}>
               {word}{" "}
             </span>
           );
-        }
-
-        // Default rendering for normal words
-        return (
-          <span key={wordIndex} style={{ direction: "ltr" }}>
-            {word}{" "}
-          </span>
-        );
-      })}
-      <br /> {/* Preserve line breaks */}
+        })}
+        <br />
+      </Linkify>
     </React.Fragment>
   ));
 };
 
-const TwitterMessage = ({ twitt }) => {
-  const message = twitt.text;
+const TwitterMessage = ({ text, keyword = null }) => {
   // Count the number of English words in the message
-  const englishWordCount = message
+  const englishWordCount = text
     .split(" ")
     .filter((word) => /[a-zA-Z]/.test(word)).length;
 
@@ -62,7 +80,7 @@ const TwitterMessage = ({ twitt }) => {
         WebkitBoxOrient: "vertical",
       }}
     >
-      {formatText(twitt)}
+      {formatText(text, keyword)}
     </div>
   );
 };
