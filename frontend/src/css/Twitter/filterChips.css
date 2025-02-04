@@ -18,6 +18,12 @@
 }
 
 .chip-value {
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
   cursor: pointer;
   background-color: var(--accent-color, #0073e6);
   color: white;
