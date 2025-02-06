@@ -14,27 +14,34 @@ This project is a dashboard for analyzing and visualizing data from various soci
    - Start the MongoDB server.
 
 2. **Configure MongoDB**
+   - Connect to the MongoDB server and create a database named `twitter`.
+   - Inside the `twitter` database, create the following collections: `users`, `keywords`, and `tweets`.
+   - Create indexes for the `tweets` collection:
+3. **Configure MongoDB**
 
    - Connect to the MongoDB server and create a database named `twitter`.
    - Inside the `twitter` database, create the following collections: `users`, `keywords`, and `tweets`.
    - Create an index for the `tweets` collection:
      ```bash
      created_at: -1
+     text: text
+     user.id: -1
+     keyword: -1
      ```
 
-3. **Install Python and Node.js**
+4. **Install Python and Node.js**
 
    - Download and install Python from [python.org](https://www.python.org/downloads/).
    - Download and install Node.js from [nodejs.org](https://nodejs.org/).
 
-4. **Run the FastAPI Server**
+5. **Run the FastAPI Server**
 
    - Navigate to the backend directory and start the FastAPI server using the following command:
      ```bash
      python -m uvicorn app:app --reload
      ```
 
-5. **Run the React Frontend**
+6. **Run the React Frontend**
    - Navigate to the `./frontend` directory and start the React development server:
      ```bash
      npm run dev
