@@ -3,9 +3,8 @@ from fastapi import HTTPException
 from fastapi import FastAPI, HTTPException
 from routes import twitter
 from fastapi.middleware.cors import CORSMiddleware
-from deep_translator import GoogleTranslator
+from deep_translator import GoogleTranslator, MyMemoryTranslator
 
-translator = GoogleTranslator(source='auto', target='iw')
 app = FastAPI()
 origins = [
     "http://localhost:5173",  # React app's URL during development
@@ -27,7 +26,8 @@ async def translate_text(text: str, target_lang: Optional[str] = 'iw'):
     if len(text) > MAX_TEXT_LENGTH:
         raise HTTPException(
             status_code=400,
-            detail=f"Text is too long. Maximum allowed length is {MAX_TEXT_LENGTH} characters."
+            detail=f"Text is too long. Maximum allowed length is {
+                MAX_TEXT_LENGTH} characters."
         )
     if not text:
         raise HTTPException(
@@ -35,7 +35,11 @@ async def translate_text(text: str, target_lang: Optional[str] = 'iw'):
 
     try:
         # Example of specifying a target language for the translation (optional parameter)
-        translated_text = translator.translate(text, target_lang=target_lang)
+        translated_text = GoogleTranslator(
+            source='auto', target='iw').translate(text, target_lang=target_lang)
+        if '1500' in translate_text:
+            translated_text = MyMemoryTranslator(
+                source='ar-SA', target='he-IL').translate(text)
 
         if not translated_text:
             raise ValueError("Translation failed to return valid data.")
