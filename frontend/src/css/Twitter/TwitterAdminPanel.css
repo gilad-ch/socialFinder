@@ -73,6 +73,12 @@
 }
 
 .user-table th {
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
   background-color: rgba(255, 255, 255, 0.05);
   font-weight: bold;
   color: var(--on-surface);

@@ -7,6 +7,12 @@
 }
 
 .multiselect-header {
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
   max-width: 100%;
   cursor: pointer;
   display: flex;
@@ -99,6 +105,12 @@
 }
 
 .option {
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
   padding: 8px 10px;
   cursor: pointer;
   display: flex;

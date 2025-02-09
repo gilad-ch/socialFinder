@@ -18,7 +18,7 @@ import time
 
 from twitter_utils.logging_config import setup_logging
 
-app = Celery('twitterTask', broker='pyamqp://', backend='rpc://')
+app = Celery('twitterTask', broker='pyamqp://guest:guest@localhost//', backend='rpc://')
 
 # Create and get the event loop at the module level
 loop = asyncio.get_event_loop()
