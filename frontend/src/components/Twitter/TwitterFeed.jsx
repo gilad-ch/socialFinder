@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { DashboardContext } from "../../contexts/DashboardContext";
 import { ClipLoader } from "react-spinners";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -14,6 +14,8 @@ function TwitterFeed() {
   const [loading, setLoading] = useState(false);
   const [selectedTweets, setSelectedTweets] = useState(new Set());
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const observerRef = useRef(new IntersectionObserver(() => {})); // Holds the observer instance
+  const tweetRefs = useRef({}); // Store references to tweet elements
 
   // Fetch tweets when currentStatus changes
   useEffect(() => {
@@ -64,11 +66,41 @@ function TwitterFeed() {
   };
 
   const handleBulkDelete = () => {
+    document.getElementById("main-content")?.scrollTo({ top: 0 });
     setTweets((prevTwitts) =>
       prevTwitts.filter((twitt) => !selectedTweets.has(twitt.tweet_id))
     );
     setSelectedTweets(new Set()); // Clear selection after deletion
   };
+
+  // Auto-select tweets when they are viewed
+  useEffect(() => {
+    // Clean up previous observers
+    observerRef.current.disconnect();
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const tweet_id = entry.target.dataset.tweetid;
+            setSelectedTweets((prev) => new Set(prev).add(tweet_id));
+          }
+        });
+      },
+      { threshold: 0.1 } // Trigger when at least 50% of the tweet is visible
+    );
+
+    // Attach observer to tweet elements
+    twitts.forEach((tweet) => {
+      const tweetElement = tweetRefs.current[tweet.tweet_id];
+      if (tweetElement) {
+        observerRef.current.observe(tweetElement);
+      }
+    });
+
+    return () => {
+      observerRef.current.disconnect(); // Cleanup observer on unmount
+    };
+  }, [twitts]);
 
   return (
     <div className="twitter-feed-container">
@@ -96,13 +128,18 @@ function TwitterFeed() {
         >
           <div className="twitter-feed">
             {twitts.map((twitt) => (
-              <TwittCard
+              <div
                 key={twitt._id}
-                twitt={twitt}
-                uiDeleteTwitt={handleUIDeleteTwitt}
-                toggleSelection={toggleSelection}
-                selected={selectedTweets.has(twitt.tweet_id)}
-              />
+                data-tweetid={twitt.tweet_id}
+                ref={(el) => (tweetRefs.current[twitt.tweet_id] = el)}
+              >
+                <TwittCard
+                  twitt={twitt}
+                  uiDeleteTwitt={handleUIDeleteTwitt}
+                  toggleSelection={toggleSelection}
+                  selected={selectedTweets.has(twitt.tweet_id)}
+                />
+              </div>
             ))}
           </div>
         </InfiniteScroll>
