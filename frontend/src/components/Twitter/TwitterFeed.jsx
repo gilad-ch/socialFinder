@@ -144,14 +144,16 @@ function TwitterFeed() {
           </div>
         </InfiniteScroll>
       )}
-      <button
-        className="bulk-delete-btn"
-        onClick={() => {
-          setShowDeleteConfirm(true);
-        }}
-      >
-        Delete Selected ({selectedTweets.size})
-      </button>
+      {currentStatus !== 1 && (
+        <button
+          className="bulk-delete-btn"
+          onClick={() => {
+            setShowDeleteConfirm(true);
+          }}
+        >
+          Delete Selected ({selectedTweets.size})
+        </button>
+      )}
       {showDeleteConfirm && (
         <div
           className="delete-confirm-overlay"
