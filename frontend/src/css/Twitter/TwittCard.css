@@ -17,7 +17,7 @@
 }
 
 .twitt-card:hover {
-  background-color: #2b2a2a;
+  background-color: #272727;
 }
 
 .twitt-card.chained {
@@ -178,6 +178,7 @@
   background-color: var(--primary-dark);
 }
 
+.select-button,
 .delete-button {
   margin-left: auto;
   background: none;
@@ -430,4 +431,40 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* Custom checkbox */
+.select-button[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #888;
+  border-radius: 4px;
+  background-color: #222;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Checked state */
+.select-button[type="checkbox"]:checked {
+  background-color: #f6413b;
+  border-color: #f5908c;
+}
+
+/* Checkmark icon */
+.select-button[type="checkbox"]:checked::after {
+  content: "X";
+  font-size: 14px;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Hover effect */
+.select-button[type="checkbox"]:hover {
+  border-color: #ccc;
 }

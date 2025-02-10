@@ -23,6 +23,8 @@ function TwittContent({
   isChained = false,
   uiDeleteTwitt,
   currentStatus,
+  toggleSelection,
+  selected,
 }) {
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalImage, setModalImage] = useState("");
@@ -114,13 +116,25 @@ function TwittContent({
             <p className="handle">@{twitt.user.username}</p>
           </div>
           {showActions && (
-            <button
-              className="delete-button"
-              onClick={handleDeleteTwitt}
-              title="Delete tweet"
-            >
-              <Trash2 size={16} />
-            </button>
+            <>
+              {currentStatus === 1 && (
+                <button
+                  className="delete-button"
+                  onClick={handleDeleteTwitt}
+                  title="Delete tweet"
+                >
+                  <Trash2 size={16} />
+                </button>
+              )}
+              {currentStatus !== 1 && (
+                <input
+                  type="checkbox"
+                  className="select-button"
+                  checked={selected}
+                  onChange={() => toggleSelection(twitt.tweet_id)}
+                />
+              )}
+            </>
           )}
         </div>
         {twitt.keyword && (
@@ -200,6 +214,8 @@ function TwittContent({
               showActions={false}
               isChained={true}
               currentStatus={currentStatus}
+              toggleSelection={toggleSelection}
+              selected={selected}
             />
           </div>
         )}
@@ -257,7 +273,7 @@ function TwittContent({
   );
 }
 
-function TwittCard({ twitt, uiDeleteTwitt }) {
+function TwittCard({ twitt, uiDeleteTwitt, toggleSelection, selected }) {
   const { currentStatus } = useContext(DashboardContext);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -274,6 +290,8 @@ function TwittCard({ twitt, uiDeleteTwitt }) {
           showActions={true}
           uiDeleteTwitt={uiDeleteTwitt}
           currentStatus={currentStatus}
+          toggleSelection={toggleSelection}
+          selected={selected}
         />
         <button className="chain-toggle" onClick={toggleExpand}>
           {isExpanded ? <ChevronUp /> : <ChevronDown />}
@@ -290,6 +308,8 @@ function TwittCard({ twitt, uiDeleteTwitt }) {
                 isChained={true}
                 uiDeleteTwitt={uiDeleteTwitt}
                 currentStatus={currentStatus}
+                toggleSelection={toggleSelection}
+                selected={selected}
               />
             ))}
           </div>
@@ -304,6 +324,8 @@ function TwittCard({ twitt, uiDeleteTwitt }) {
         showActions={true}
         uiDeleteTwitt={uiDeleteTwitt}
         currentStatus={currentStatus}
+        toggleSelection={toggleSelection}
+        selected={selected}
       />
     );
   }

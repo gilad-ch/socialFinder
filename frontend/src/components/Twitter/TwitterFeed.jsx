@@ -12,6 +12,8 @@ function TwitterFeed() {
   const [twitts, setTweets] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [selectedTweets, setSelectedTweets] = useState(new Set());
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   // Fetch tweets when currentStatus changes
   useEffect(() => {
@@ -51,6 +53,23 @@ function TwitterFeed() {
     }
   };
 
+  const toggleSelection = (tweet_id) => {
+    setSelectedTweets((prev) => {
+      const newSelection = new Set(prev);
+      newSelection.has(tweet_id)
+        ? newSelection.delete(tweet_id)
+        : newSelection.add(tweet_id);
+      return newSelection;
+    });
+  };
+
+  const handleBulkDelete = () => {
+    setTweets((prevTwitts) =>
+      prevTwitts.filter((twitt) => !selectedTweets.has(twitt.tweet_id))
+    );
+    setSelectedTweets(new Set()); // Clear selection after deletion
+  };
+
   return (
     <div className="twitter-feed-container">
       {filters.keywords && filters.keywords.length > 0 && <FilterChips />}
@@ -81,10 +100,44 @@ function TwitterFeed() {
                 key={twitt._id}
                 twitt={twitt}
                 uiDeleteTwitt={handleUIDeleteTwitt}
+                toggleSelection={toggleSelection}
+                selected={selectedTweets.has(twitt.tweet_id)}
               />
             ))}
           </div>
         </InfiniteScroll>
+      )}
+      <button
+        className="bulk-delete-btn"
+        onClick={() => {
+          setShowDeleteConfirm(true);
+        }}
+      >
+        Delete Selected ({selectedTweets.size})
+      </button>
+      {showDeleteConfirm && (
+        <div
+          className="delete-confirm-overlay"
+          onClick={() => {
+            setShowDeleteConfirm(false);
+          }}
+        >
+          <div className="delete-confirm-popup">
+            <p>
+              Are you sure you want to <b>delete</b> selected tweets?
+            </p>
+            <div className="delete-confirm-actions">
+              <button onClick={handleBulkDelete}>Delete</button>
+              <button
+                onClick={() => {
+                  setShowDeleteConfirm(false);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
