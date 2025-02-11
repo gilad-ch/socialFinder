@@ -129,6 +129,7 @@ function TwitterFeed() {
           <div className="twitter-feed">
             {twitts.map((twitt) => (
               <div
+                className="twitt-container"
                 key={twitt._id}
                 data-tweetid={twitt.tweet_id}
                 ref={(el) => (tweetRefs.current[twitt.tweet_id] = el)}
