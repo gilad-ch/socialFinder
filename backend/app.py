@@ -4,11 +4,13 @@ from fastapi import FastAPI, HTTPException
 from routes import twitter
 from fastapi.middleware.cors import CORSMiddleware
 from deep_translator import GoogleTranslator, MyMemoryTranslator
-
+from utils.translate import googleTranslate
 app = FastAPI()
 origins = [
     "http://localhost:5173",  # React app's URL during development
 ]
+
+google_translator = googleTranslate()
 
 app.add_middleware(
     CORSMiddleware,
@@ -34,12 +36,14 @@ async def translate_text(text: str, target_lang: Optional[str] = 'iw'):
             status_code=400, detail="Text to translate is required")
 
     try:
-        # Example of specifying a target language for the translation (optional parameter)
-        translated_text = GoogleTranslator(
-            source='auto', target='iw').translate(text, target_lang=target_lang)
-        if '1500' in translate_text:
-            translated_text = MyMemoryTranslator(
-                source='ar-SA', target='he-IL').translate(text)
+        translated_text = google_translator.translate(text).get('translated_text')
+        if not translated_text:
+            translated_text = GoogleTranslator(
+                source='auto', target='iw').translate(text, target_lang=target_lang)
+            if '1500' in translate_text:
+                translated_text = MyMemoryTranslator(
+                    source='ar-SA', target='he-IL').translate(text)
+
 
         if not translated_text:
             raise ValueError("Translation failed to return valid data.")
