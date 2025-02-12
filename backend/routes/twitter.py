@@ -17,7 +17,7 @@ patterns = {
     'twitter_user_id_pattern': r'^[a-zA-Z0-9]{1,20}$'
 }
 
-        
+
 # ---------------- Admin Pannel - Users ----------------
 
 
@@ -148,6 +148,19 @@ async def approve_tweet(document_id: str = Path(..., title="Document ID", descri
         )
     await twitter_db.delete_tweet(document_id)
     return {"message": "Tweet approved successfully"}
+
+
+@router.post("/bulk_delete")
+async def bulk_delete(doc_ids_list: list[str]):
+    invalid_ids = [
+        doc_id for doc_id in doc_ids_list if not ObjectId.is_valid(doc_id)]
+
+    if invalid_ids:
+        raise HTTPException(
+            status_code=400, detail=f"Invalid document ID(s): {', '.join(invalid_ids)}"
+        )
+    deleted_count = await twitter_db.bulk_delete_tweets(doc_ids_list)
+    return {"message": f"Successfully deleted {deleted_count} tweets."}
 
 
 # validate tweet_id

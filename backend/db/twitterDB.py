@@ -83,6 +83,11 @@ class TwitterDB:
     async def delete_tweet(self, _id):
         await self.tweets.delete_one({"_id": ObjectId(_id)})
 
+    async def bulk_delete_tweets(self, doc_ids_list):
+        object_ids = [ObjectId(doc_id) for doc_id in doc_ids_list]
+        result = await self.tweets.delete_many({"_id": {"$in": object_ids}})
+        return result.deleted_count
+
     async def update_tweet_status(self, tweet_id, status):
         filter_criteria = {"tweet_id": tweet_id}
         update_data = {"$set": {"status": status}}
