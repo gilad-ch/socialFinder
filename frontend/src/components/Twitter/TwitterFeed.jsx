@@ -20,6 +20,7 @@ function TwitterFeed() {
   // Fetch tweets when currentStatus changes
   useEffect(() => {
     setLoading(true);
+    setSelectedTweets(new Set());
     fetchTwitts(currentStatus, null, filters.keywords, filters.username)
       .then((tweets) => {
         setTweets(tweets);
