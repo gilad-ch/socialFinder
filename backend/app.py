@@ -37,7 +37,7 @@ async def translate_text(text: str, target_lang: Optional[str] = 'iw'):
 
     try:
         translated_text = google_translator.translate(
-            text).get('translated_text')
+            text)
         if not translated_text:
             translated_text = GoogleTranslator(
                 source='auto', target='iw').translate(text, target_lang=target_lang)
@@ -60,3 +60,4 @@ async def translate_text(text: str, target_lang: Optional[str] = 'iw'):
             status_code=500, detail=f"An internal server error occurred: {str(e)}")
 
 app.include_router(twitter.router, prefix="/api")
+

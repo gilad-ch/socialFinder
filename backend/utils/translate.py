@@ -30,7 +30,7 @@ class googleTranslate:
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
     }
 
-    TRANSLATE_LOCATION = r'<span id="tw-answ-target-text">(.*?)</span>'
+    TRANSLATE_LOCATION = r'id="tw-answ-target-text">([^<]+)<\/span>'
 
     def __init__(self, source_lang="auto", target_lang="iw"):
         self.source_lang = source_lang
@@ -47,10 +47,10 @@ class googleTranslate:
                     googleTranslate.TRANSLATE_LOCATION, response.text)
                 if match:
                     translated_text = match.group(1)
-                    return {"translated_text": translated_text}
+                    return translated_text
                 else:
                     raise requests.RequestException(
-                        f"Erorr: couldn't find translation result in the response")
+                        f"Erorr: couldn't find translation result in the response {response.text}")
             else:
                 raise requests.RequestException(
                     f"Error: {response.status_code}")
