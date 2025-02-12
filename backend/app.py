@@ -36,14 +36,14 @@ async def translate_text(text: str, target_lang: Optional[str] = 'iw'):
             status_code=400, detail="Text to translate is required")
 
     try:
-        translated_text = google_translator.translate(text).get('translated_text')
+        translated_text = google_translator.translate(
+            text).get('translated_text')
         if not translated_text:
             translated_text = GoogleTranslator(
                 source='auto', target='iw').translate(text, target_lang=target_lang)
             if '1500' in translate_text:
                 translated_text = MyMemoryTranslator(
                     source='ar-SA', target='he-IL').translate(text)
-
 
         if not translated_text:
             raise ValueError("Translation failed to return valid data.")

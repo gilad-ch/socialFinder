@@ -2,8 +2,9 @@ import re
 import requests
 import urllib.parse
 
+
 class googleTranslate:
-    URL = "https://www.google.com/async/translate?vet=12ahUKEwjq9Jm8o7uLAxW76wIHHew7N-gQqDh6BAgHEC0..i&ei=XRSrZ6rSObvXi-gP7PfcwQ4&opi=89978449&rlz=1C1GCEB_enIL1082IL1082&yv=3&_fmt=pc&cs=0" 
+    URL = "https://www.google.com/async/translate?vet=12ahUKEwjq9Jm8o7uLAxW76wIHHew7N-gQqDh6BAgHEC0..i&ei=XRSrZ6rSObvXi-gP7PfcwQ4&opi=89978449&rlz=1C1GCEB_enIL1082IL1082&yv=3&_fmt=pc&cs=0"
     HEADERS = {
         "Accept": "*/*",
         "Accept-Encoding": "UTF-8",
@@ -39,15 +40,20 @@ class googleTranslate:
         encoded_text = urllib.parse.quote(text)
         body = f"async=translate,sl:{self.source_lang},tl:{self.target_lang},st:{encoded_text},id: 1739265142441,qc: true,ac: false,_id:tw-async-translate,_pms:s,_fmt:pc,_basejs:%2Fxjs%2F_%2Fjs%2Fk%3Dxjs.s.iw.vyFie24kWPQ.2018.O%2Fam%3DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAARQAAIgAAAAAACABAABAAAAAAAAACQAAAAAAAAIEAAEECQAAIAAAAAAAMAEAAAgYAEIGAAAAAAAAABAAAAAAIEIgP3-wwEAAAAAAAAAAAAAApAAAAAAAADgAgAgAB_CHiAAAAAAQAAAAABAAAAAAAAgAAAAQAEAAAAEAAAAAAgAAAAAAAABAAAAIAAA9AEAAAAAAAAAAAAAQAAAAAAAAAagAAAC-AEAAAAAAAA4AAAAAAECAADgGBiAAAAAAAAAAOwB4PGAcEhhAQAAAAAAAAAAAAAAAAQgQTAH0l8QgAAAAAAAAAAAAAAAAAAAAFIETVzeAIA%2Fdg%3D0%2Fbr%3D1%2Frs%3DACT90oF9eQ1i_ddjZ2V5-DilYVFZTL1vHQ,_basecss:%2Fxjs%2F_%2Fss%2Fk%3Dxjs.s.Ahq3XjJr3Gk.R.B1.O%2Fam%3DAOIQIAQAAAACAABACAAVAAQAAAAAAAAAAAAAAAAAAAAAAAAASAAAAIAAAACAAAAAgAAAAAARAAAAABIAABCcEAABdgAAAADwAQTiVAAEAAAAAAAEACQAAAAAQAAgAIAEEAAAQAAAAACCAAAACABwAAAgAAAIAAAAhIEBABgAAAAABAARggEABIABAHAAAiABAAACHAD5AUABAAAgAABAAAAABeAhGAZAUAEwgCOAAAAAAAAAAAAAAAIAhAAAYABQAAAECADQA0AAPgAASRABAEIBAASgEAAQAAAAAgAAAAAAAgQCAABACADgGBiAAAAAAAAAACABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAAAAAAAEA%2Fbr%3D1%2Frs%3DACT90oEvolPIJmSawUj8pNUGXFXKH_v6yQ,_basecomb:%2Fxjs%2F_%2Fjs%2Fk%3Dxjs.s.iw.vyFie24kWPQ.2018.O%2Fck%3Dxjs.s.Ahq3XjJr3Gk.R.B1.O%2Fam%3DAOIQIAQAAAACAABACAAVAAQAAAAAAAAAAAAAAAAAAAAAAAAASAAAAIAAAACAAAAAgAAAAARRAAIgABIAABCcFAABdgAAAADwASTiVAAEAAAIEAAEECQAAIAAQAAgAMAEEAAgYAEIGACCAAAACABwAAAgAIEIgP3-x4EBABgAAAAABAARgpEABIABAHDgAiAhAB_CHiD5AUABQAAgAABAAAAABeAhGAZAUAEwgCOEAAAAAAgAAAAAAAIBhAAAYABQ9AEECADQA0AAPgAASRABAEIBAAagEAAS-AEAAgAAAAA4AgQCAAFCCADgGBiAAAAAAAAAAOwB4PGAcEhhAQAAAAAAAAAAAAAAAAQgQTAH0l8QgAAAAAAAAAAAAAAAAAAAAFIETVzeAIA%2Fd%3D1%2Fed%3D1%2Fdg%3D0%2Fbr%3D1%2Fujg%3D1%2Frs%3DACT90oH5vwO7McFrS_5oxHEXtSE9zr8DYQ"
         try:
-            response = requests.post(googleTranslate.URL, headers=googleTranslate.HEADERS, data=body)
+            response = requests.post(
+                googleTranslate.URL, headers=googleTranslate.HEADERS, data=body)
             if response.status_code == 200:
-                match = re.search(googleTranslate.TRANSLATE_LOCATION, response.text)
+                match = re.search(
+                    googleTranslate.TRANSLATE_LOCATION, response.text)
                 if match:
                     translated_text = match.group(1)
-                    return{"translated_text": translated_text}
+                    return {"translated_text": translated_text}
                 else:
-                    raise requests.RequestException(f"Erorr: couldn't find translation result in the response")
+                    raise requests.RequestException(
+                        f"Erorr: couldn't find translation result in the response")
             else:
-                 raise requests.RequestException(f"Error: {response.status_code}")
+                raise requests.RequestException(
+                    f"Error: {response.status_code}")
         except Exception as e:
-            raise requests.RequestException(f"An error occurred when requesting a translation: {str(e)}")
+            raise requests.RequestException(
+                f"An error occurred when requesting a translation: {str(e)}")
