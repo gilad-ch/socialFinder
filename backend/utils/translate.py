@@ -46,7 +46,7 @@ class googleTranslate:
                     translated_text = match.group(1)
                     return{"translated_text": translated_text}
                 else:
-                    raise requests.RequestException(f"Erorr: couldn't find result in the response")
+                    raise requests.RequestException(f"Erorr: couldn't find translation result in the response")
             else:
                  raise requests.RequestException(f"Error: {response.status_code}")
         except Exception as e:
