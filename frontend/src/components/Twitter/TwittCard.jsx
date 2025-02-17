@@ -131,7 +131,7 @@ function TwittContent({
                   type="checkbox"
                   className="select-button"
                   checked={selected}
-                  onChange={() => toggleSelection(twitt.tweet_id)}
+                  onChange={() => toggleSelection(twitt._id)}
                 />
               )}
             </>

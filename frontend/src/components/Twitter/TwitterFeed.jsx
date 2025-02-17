@@ -3,7 +3,7 @@ import { DashboardContext } from "../../contexts/DashboardContext";
 import { ClipLoader } from "react-spinners";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TwittCard from "./TwittCard";
-import { fetchTwitts } from "../../services/twitterApi";
+import { fetchTwitts, bulkDeleteTweets} from "../../services/twitterApi";
 import FilterChips from "./FilterChips";
 import "../../css/Twitter/TwitterFeed.css";
 
@@ -56,22 +56,24 @@ function TwitterFeed() {
     }
   };
 
-  const toggleSelection = (tweet_id) => {
+  const toggleSelection = (_id) => {
     setSelectedTweets((prev) => {
       const newSelection = new Set(prev);
-      newSelection.has(tweet_id)
-        ? newSelection.delete(tweet_id)
-        : newSelection.add(tweet_id);
+      newSelection.has(_id)
+        ? newSelection.delete(_id)
+        : newSelection.add(_id);
       return newSelection;
     });
   };
 
   const handleBulkDelete = () => {
     document.getElementById("main-content")?.scrollTo({ top: 0 });
-    setTweets((prevTwitts) =>
-      prevTwitts.filter((twitt) => !selectedTweets.has(twitt.tweet_id))
-    );
-    setSelectedTweets(new Set()); // Clear selection after deletion
+    bulkDeleteTweets(Array.from(selectedTweets)).then(() => {
+      setTweets((prevTwitts) =>
+        prevTwitts.filter((twitt) => !selectedTweets.has(twitt._id))
+      );
+      setSelectedTweets(new Set()); // Clear selection after deletion
+    })
   };
 
   // Auto-select tweets when they are viewed
@@ -82,8 +84,8 @@ function TwitterFeed() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const tweet_id = entry.target.dataset.tweetid;
-            setSelectedTweets((prev) => new Set(prev).add(tweet_id));
+            const _id = entry.target.dataset._id;
+            setSelectedTweets((prev) => new Set(prev).add(_id));
           }
         });
       },
@@ -92,7 +94,7 @@ function TwitterFeed() {
 
     // Attach observer to tweet elements
     twitts.forEach((tweet) => {
-      const tweetElement = tweetRefs.current[tweet.tweet_id];
+      const tweetElement = tweetRefs.current[tweet._id];
       if (tweetElement) {
         observerRef.current.observe(tweetElement);
       }
@@ -132,14 +134,14 @@ function TwitterFeed() {
               <div
                 className="twitt-container"
                 key={twitt._id}
-                data-tweetid={twitt.tweet_id}
-                ref={(el) => (tweetRefs.current[twitt.tweet_id] = el)}
+                data-_id={twitt._id}
+                ref={(el) => (tweetRefs.current[twitt._id] = el)}
               >
                 <TwittCard
                   twitt={twitt}
                   uiDeleteTwitt={handleUIDeleteTwitt}
                   toggleSelection={toggleSelection}
-                  selected={selectedTweets.has(twitt.tweet_id)}
+                  selected={selectedTweets.has(twitt._id)}
                 />
               </div>
             ))}
