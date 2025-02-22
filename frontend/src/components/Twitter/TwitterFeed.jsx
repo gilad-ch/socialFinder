@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { DashboardContext } from "../../contexts/DashboardContext";
 import { ClipLoader } from "react-spinners";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TwittCard from "./TwittCard";
-import { fetchTwitts } from "../../services/twitterApi";
+import { fetchTwitts, bulkDeleteTweets} from "../../services/twitterApi";
 import FilterChips from "./FilterChips";
 import "../../css/Twitter/TwitterFeed.css";
 
@@ -12,10 +12,15 @@ function TwitterFeed() {
   const [twitts, setTweets] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [selectedTweets, setSelectedTweets] = useState(new Set());
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const observerRef = useRef(new IntersectionObserver(() => {})); // Holds the observer instance
+  const tweetRefs = useRef({}); // Store references to tweet elements
 
   // Fetch tweets when currentStatus changes
   useEffect(() => {
     setLoading(true);
+    setSelectedTweets(new Set());
     fetchTwitts(currentStatus, null, filters.keywords, filters.username)
       .then((tweets) => {
         setTweets(tweets);
@@ -51,6 +56,55 @@ function TwitterFeed() {
     }
   };
 
+  const toggleSelection = (_id) => {
+    setSelectedTweets((prev) => {
+      const newSelection = new Set(prev);
+      newSelection.has(_id)
+        ? newSelection.delete(_id)
+        : newSelection.add(_id);
+      return newSelection;
+    });
+  };
+
+  const handleBulkDelete = () => {
+    document.getElementById("main-content")?.scrollTo({ top: 0 });
+    bulkDeleteTweets(Array.from(selectedTweets)).then(() => {
+      setTweets((prevTwitts) =>
+        prevTwitts.filter((twitt) => !selectedTweets.has(twitt._id))
+      );
+      setSelectedTweets(new Set()); // Clear selection after deletion
+    })
+  };
+
+  // Auto-select tweets when they are viewed
+  useEffect(() => {
+    // Clean up previous observers
+    observerRef.current.disconnect();
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const _id = entry.target.dataset._id;
+            setSelectedTweets((prev) => new Set(prev).add(_id));
+          }
+        });
+      },
+      { threshold: 0.1 } // Trigger when at least 50% of the tweet is visible
+    );
+
+    // Attach observer to tweet elements
+    twitts.forEach((tweet) => {
+      const tweetElement = tweetRefs.current[tweet._id];
+      if (tweetElement) {
+        observerRef.current.observe(tweetElement);
+      }
+    });
+
+    return () => {
+      observerRef.current.disconnect(); // Cleanup observer on unmount
+    };
+  }, [twitts]);
+
   return (
     <div className="twitter-feed-container">
       {filters.keywords && filters.keywords.length > 0 && <FilterChips />}
@@ -77,14 +131,56 @@ function TwitterFeed() {
         >
           <div className="twitter-feed">
             {twitts.map((twitt) => (
-              <TwittCard
+              <div
+                className="twitt-container"
                 key={twitt._id}
-                twitt={twitt}
-                uiDeleteTwitt={handleUIDeleteTwitt}
-              />
+                data-_id={twitt._id}
+                ref={(el) => (tweetRefs.current[twitt._id] = el)}
+              >
+                <TwittCard
+                  twitt={twitt}
+                  uiDeleteTwitt={handleUIDeleteTwitt}
+                  toggleSelection={toggleSelection}
+                  selected={selectedTweets.has(twitt._id)}
+                />
+              </div>
             ))}
           </div>
         </InfiniteScroll>
+      )}
+      {currentStatus !== 1 && (
+        <button
+          className="bulk-delete-btn"
+          onClick={() => {
+            setShowDeleteConfirm(true);
+          }}
+        >
+          Delete Selected ({selectedTweets.size})
+        </button>
+      )}
+      {showDeleteConfirm && (
+        <div
+          className="delete-confirm-overlay"
+          onClick={() => {
+            setShowDeleteConfirm(false);
+          }}
+        >
+          <div className="delete-confirm-popup">
+            <p>
+              Are you sure you want to <b>delete</b> selected tweets?
+            </p>
+            <div className="delete-confirm-actions">
+              <button onClick={handleBulkDelete}>Delete</button>
+              <button
+                onClick={() => {
+                  setShowDeleteConfirm(false);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

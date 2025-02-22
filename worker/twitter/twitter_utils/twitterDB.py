@@ -1,8 +1,9 @@
 import logging
-from bson.objectid import ObjectId
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field
 from typing import List, Optional
+from bson import ObjectId
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +25,7 @@ class TwitterDB:
         if item:
             item["_id"] = str(item["_id"])
         return item
+
 # ------------ tweets ------------
 
     async def insert_tweet(self, tweet_dict: dict):
@@ -38,27 +40,39 @@ class TwitterDB:
 
     async def get_tweets(
         self,
-        status: int = 0,
+        status: int = None,
         date_limit: float = None,
-        user_id: str = None,
-        keyword: str = None,
+        username: str = None,
+        keywords: list = None,
         search: str = None
     ):
         if date_limit is None:
             date_limit = time.time()
 
-        query = {"status": status, "created_at": {"$lt": date_limit}}
+        query = {"created_at": {"$lt": date_limit}}
+        and_conditions = []
 
-        if user_id:
-            query["user.id"] = user_id
+        # Add user ID condition
+        if username:
+            and_conditions.append({"user.username": username})
 
-        if keyword:
-            query["keyword"] = keyword
+        # Add keywords condition
+        if keywords:
+            and_conditions.append({"keyword": {"$in": keywords}})
 
+        # Add search condition (text search)
         if search:
-            # Case-insensitive search
-            query["text"] = {"$regex": search, "$options": "i"}
+            and_conditions.append({"$text": {"$search": search}})
 
+        # Add status condition
+        if status is not None:
+            and_conditions.append({"status": status})
+
+        # Add $and conditions to the query if there are any
+        if and_conditions:
+            query["$and"] = and_conditions
+
+        # Pagination and sorting
         frame_size = 10
         tweets_cursor = self.tweets.find(query).sort(
             "created_at", -1).limit(frame_size)
@@ -74,7 +88,15 @@ class TwitterDB:
         update_data = {"$set": {"status": status}}
         result = await self.tweets.update_one(filter_criteria, update_data)
         return result
+
 # ------------ users ------------
+
+    async def insert_user(self, user_dict: dict):
+        return await self.users.update_one(
+            filter={"username": user_dict["username"]},
+            update={"$setOnInsert": user_dict},
+            upsert=True
+        )
 
     # TODO change to _id
 
@@ -90,13 +112,6 @@ class TwitterDB:
                 logger.warning(f"User {username_or_userid} not found.")
         except Exception as e:
             logger.error(f"Failed to remove user {username_or_userid}: {e}")
-
-    async def insert_user(self, user_dict: dict):
-        return await self.users.update_one(
-            filter={"username": user_dict["username"]},
-            update={"$setOnInsert": user_dict},
-            upsert=True
-        )
 
     async def get_users(self):
         logger.debug("Fetching all users.")
@@ -147,8 +162,8 @@ class TwitterDB:
         except Exception as e:
             logger.error(f"Failed to fetch User {_id}: {e}")
             return None
-# ------------ keywords ------------
 
+# ------------ keywords ------------
     async def get_keywords(self):
         logger.debug("Fetching all eywords.")
         try:
@@ -185,6 +200,9 @@ class TwitterDB:
         except Exception as e:
             logger.error(f"Failed to update keyword {_id}: {e}")
 
+    async def get_keyword_by_id(self, _id):
+        return await self.keywords.find_one({"_id": ObjectId(_id)})
+
     async def delete_keyword(self, _id: str):
         await self.keywords.delete_one({"_id": ObjectId(_id)})
 
@@ -197,20 +215,25 @@ class TwitterDB:
 
 
 class User(BaseModel):
-    name: str
-    username: str
-    id: str
-    profile_image_url: str
-    last_scan: float | None
+    _id: str
+    name: str | None
+    username: str | None
+    last_scan: float | None = None
+    id: str | None
+    profile_image_url: str | None
+    monitored: bool = True
 
 
 class Tweet(BaseModel):
+    document_id: str = Field(alias="_id")
     user: User
     tweet_id: str
-    created_at: str
+    created_at: float
     text: str
+    keyword: Optional[str] = None  # Made optional
     media: list[str]
     retweet: object
+    conversation: list[object] = []
 
 
 class Keyword(BaseModel):

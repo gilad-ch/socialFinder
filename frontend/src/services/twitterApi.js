@@ -167,6 +167,27 @@ export async function deleteTweet(object_id) {
   }
 }
 
+export async function bulkDeleteTweets(object_id_list) {
+  const body = JSON.stringify(object_id_list);
+
+  try {
+        const response = await fetch(
+      `/api/twitter/bulk_delete`,
+      {
+        method: "POST", 
+        headers: {
+          "Content-Type": "application/json", 
+        },
+        body: body , 
+      }
+    );
+    return await response.json();
+
+  } catch (error) {
+    console.error(`bulk delete error: `, error);
+  }
+}
+
 export async function updateTweetStatus(tweet_id, status) {
   try {
     const response = await fetch(
