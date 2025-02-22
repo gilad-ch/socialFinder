@@ -87,5 +87,5 @@ This project is a dashboard for analyzing and visualizing data from various soci
 6. **Run the Scheduler**
    - Start the scheduler script:
      ```bash
-     python scheduler.py
+     python scheduler.py --interval=INTERVAL_IN_MINUTES
      ```
