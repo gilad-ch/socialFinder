@@ -445,16 +445,20 @@
   cursor: pointer;
   position: relative;
   transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Checked state */
 .select-button[type="checkbox"]:checked {
   background-color: #f6413b;
-  border-color: #f5908c;
+  border-color: #f5605b;
 }
 
 /* Checkmark icon */
 .select-button[type="checkbox"]:checked::after {
+  font-family: Arial, sans-serif;
   content: "X";
   font-size: 14px;
   color: white;
@@ -466,5 +470,5 @@
 
 /* Hover effect */
 .select-button[type="checkbox"]:hover {
-  border-color: #ccc;
+  border-color: #f89693;
 }
