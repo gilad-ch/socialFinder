@@ -1,6 +1,15 @@
+.twitter-feed {
+  column-count: 2;
+  /* Two masonry-style columns */
+  column-gap: 2rem;
+  /* Small gap between columns */
+  max-width: 900px;
+  /* Adjust width to fit the content */
+  margin: 0 auto;
+  /* Centers the feed */
+}
 
-
-.twitt-container{
+.twitt-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,4 +52,17 @@
 .bulk-delete-btn:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .twitter-feed {
+    column-count: 1;
+    /* Two masonry-style columns */
+    column-gap: 5rem;
+    /* Small gap between columns */
+    max-width: 900px;
+    /* Adjust width to fit the content */
+    margin: 0 auto;
+    /* Centers the feed */
+  }
 }
