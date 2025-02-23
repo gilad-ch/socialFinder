@@ -1,7 +1,7 @@
 .twitter-feed {
   column-count: 2;
   /* Two masonry-style columns */
-  column-gap: 2rem;
+  column-gap: 5rem;
   /* Small gap between columns */
   max-width: 900px;
   /* Adjust width to fit the content */
