@@ -53,6 +53,43 @@ export async function postUser(username) {
 
 // ---------------- Admin Pannel - Keywords ----------------
 
+export function fetchGroups() {
+  return [
+    {
+      _id: "67b9eca20ac78fea80f8467b",
+      name: "group 1",
+      keywords: [
+        {
+          _id: "67b9c4f7905f797a8adfaa80",
+          keyword: "משרות הייטק",
+          last_scan: 1740231570.1574519,
+        },
+        {
+          _id: "67b9c4f7905f797a8adfaa99",
+          keyword: "משרותמשרוק",
+          last_scan: 1740231570.1574519,
+        },
+      ],
+    },
+    {
+      _id: "63b9eca20ac78fea80f84622",
+      name: "group 2",
+      keywords: [
+        {
+          _id: "32b9c4f7905f797a8adfaa80",
+          keyword: "ייטקח",
+          last_scan: 1740231570.1574519,
+        },
+        {
+          _id: "32b9c4f7905f797a8adfaa99",
+          keyword: "משרוגדשגשדק",
+          last_scan: 1740231570.1574519,
+        },
+      ],
+    },
+  ];
+}
+
 export async function fetchKeywords() {
   try {
     const response = await fetch("/api/twitter/keywords");
@@ -171,18 +208,14 @@ export async function bulkDeleteTweets(object_id_list) {
   const body = JSON.stringify(object_id_list);
 
   try {
-        const response = await fetch(
-      `/api/twitter/bulk_delete`,
-      {
-        method: "POST", 
-        headers: {
-          "Content-Type": "application/json", 
-        },
-        body: body , 
-      }
-    );
+    const response = await fetch(`/api/twitter/bulk_delete`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body,
+    });
     return await response.json();
-
   } catch (error) {
     console.error(`bulk delete error: `, error);
   }

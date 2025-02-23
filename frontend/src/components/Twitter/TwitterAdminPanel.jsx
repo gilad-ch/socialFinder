@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../../css/Twitter/TwitterAdminPanel.css";
 import UsersTable from "./AdminPanel_Tables/UsersTable";
 import KeywordsTable from "./AdminPanel_Tables/KeywordsTable";
 import { UserCog, FolderSearch } from "lucide-react";

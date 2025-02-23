@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { Trash2, Plus } from "lucide-react";
+import Accordion from "../../general/AccordionMenu";
 import { ClipLoader } from "react-spinners";
 import {
-  fetchKeywords,
+  fetchGroups,
   deleteKeyword,
   postKeyword,
 } from "../../../services/twitterApi";
 import moment from "moment";
+import "../../css/Twitter/TwitterKeywordsTable.css";
 
 const convertTimestampToDate = (ts) => moment(ts).format("LLL");
 
 function TwitterAdminPanel() {
-  const [keywords, setKeywords] = useState([]);
+  const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(false); // State for loading
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -20,37 +22,43 @@ function TwitterAdminPanel() {
   // Fetch users - filters can be added here
   useEffect(() => {
     setLoading(true); // Start loading
-    fetchKeywords()
-      .then((keywords) => {
-        setKeywords(keywords);
-      })
-      .finally(() => {
-        setLoading(false); // End loading
-      });
+    const fetchedGroups = fetchGroups();
+    console.log(fetchedGroups);
+    setGroups(fetchedGroups);
+    setLoading(false);
+    console.log(fetchedGroups); // Log after state update
+
+    // fetchKeywords()
+    //   .then((keywords) => {
+    //     setKeywords(keywords);
+    //   })
+    //   .finally(() => {
+    //     setLoading(false); // End loading
+    //   });
   }, []);
 
   const handleDelete = (_id) => {
-    setKeywords(keywords.filter((keyword) => keyword._id !== _id));
+    // setKeywords(keywords.filter((keyword) => keyword._id !== _id));
     setShowDeleteConfirm(null);
-    deleteKeyword(_id);
+    // deleteKeyword(_id);
   };
 
   const handleAddKeyword = (e) => {
-    e.preventDefault();
-    setShowAddForm(false);
-    if (newInput) {
-      postKeyword(newInput).then((result) => {
-        setKeywords([
-          ...keywords,
-          {
-            _id: result._id,
-            keyword: result.keyword,
-            last_scan: "Not scanned yet",
-          },
-        ]);
-        setNewInput("");
-      });
-    }
+    // e.preventDefault();
+    // setShowAddForm(false);
+    // if (newInput) {
+    //   postKeyword(newInput).then((result) => {
+    //     setKeywords([
+    //       ...keywords,
+    //       {
+    //         _id: result._id,
+    //         keyword: result.keyword,
+    //         last_scan: "Not scanned yet",
+    //       },
+    //     ]);
+    //     setNewInput("");
+    //   });
+    // }
   };
 
   return (
@@ -61,45 +69,71 @@ function TwitterAdminPanel() {
         </div>
       ) : (
         <>
-          <div className="user-table-container">
-            <table className="user-table">
-              <thead>
-                <tr>
-                  <th>Keyword</th>
-                  <th>Last Scan</th>
-                  <th>
-                    <button
-                      className="add-user-btn"
-                      onClick={() => setShowAddForm(true)}
-                    >
-                      <Plus size={20} />
-                    </button>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {keywords.map((keyword) => (
-                  <tr key={keyword._id}>
-                    <td>{keyword.keyword}</td>
-                    <td>
-                      {typeof keyword.last_scan === "number"
-                        ? convertTimestampToDate(keyword.last_scan * 1000)
-                        : keyword.last_scan}
-                    </td>
-                    <td>
-                      <button
-                        className="delete-btn"
-                        onClick={() => setShowDeleteConfirm(keyword._id)}
-                      >
-                        <Trash2 size={20} />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
+          {/* <Accordion
+            title={"baa"}
+            content={
+              <div className="groups-container">
+                <button
+                  className="group-container"
+                  onClick={(e) => {
+                    e.currentTarget.classList.toggle("active-group");
+                  }}
+                >
+                  group 1
+                </button>
+                <div className="keywords">
+                  <p>hello</p>
+                </div>
+                <button className="group-container">group 2</button>
+                <div className="keywords">
+                  <p>bye</p>
+                </div>
+              </div>
+            }
+          /> */}
+          <Accordion
+            title={"baa"}
+            content={
+              <div className="user-table-container">
+                <table className="user-table">
+                  <thead>
+                    <tr>
+                      <th>Keyword</th>
+                      <th>Last Scan</th>
+                      <th>
+                        <button
+                          className="add-user-btn"
+                          onClick={() => setShowAddForm(true)}
+                        >
+                          <Plus size={20} />
+                        </button>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {groups[0]?.keywords?.map((keyword) => (
+                      <tr key={keyword._id}>
+                        <td>{keyword.keyword}</td>
+                        <td>
+                          {typeof keyword.last_scan === "number"
+                            ? convertTimestampToDate(keyword.last_scan * 1000)
+                            : keyword.last_scan}
+                        </td>
+                        <td>
+                          <button
+                            className="delete-btn"
+                            onClick={() => setShowDeleteConfirm(keyword._id)}
+                          >
+                            <Trash2 size={20} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            }
+          />
           {showDeleteConfirm && (
             <div className="modal" onClick={() => setShowDeleteConfirm(null)}>
               <div className="modal-content">

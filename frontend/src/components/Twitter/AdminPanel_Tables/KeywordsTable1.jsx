@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import { Trash2, Plus } from "lucide-react";
 import { ClipLoader } from "react-spinners";
-import { fetchUsers, removeUser, postUser } from "../../../services/twitterApi";
+import {
+  fetchKeywords,
+  deleteKeyword,
+  postKeyword,
+} from "../../../services/twitterApi";
 import moment from "moment";
-import "../../css/Twitter/TwitterAdminPanel.css";
 
 const convertTimestampToDate = (ts) => moment(ts).format("LLL");
 
 function TwitterAdminPanel() {
-  const [users, setUsers] = useState([]);
+  const [keywords, setKeywords] = useState([]);
   const [loading, setLoading] = useState(false); // State for loading
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -17,29 +20,33 @@ function TwitterAdminPanel() {
   // Fetch users - filters can be added here
   useEffect(() => {
     setLoading(true); // Start loading
-    fetchUsers()
-      .then((monitored_users) => {
-        setUsers(monitored_users);
+    fetchKeywords()
+      .then((keywords) => {
+        setKeywords(keywords);
       })
       .finally(() => {
         setLoading(false); // End loading
       });
   }, []);
 
-  const handleDelete = (username) => {
-    setUsers(users.filter((user) => user.username !== username));
+  const handleDelete = (_id) => {
+    setKeywords(keywords.filter((keyword) => keyword._id !== _id));
     setShowDeleteConfirm(null);
-    removeUser(username);
+    deleteKeyword(_id);
   };
 
-  const handleAddUser = (e) => {
+  const handleAddKeyword = (e) => {
     e.preventDefault();
     setShowAddForm(false);
     if (newInput) {
-      postUser(newInput).then((result) => {
-        setUsers([
-          ...users,
-          { username: result.username, last_scan: "Not scanned yet" },
+      postKeyword(newInput).then((result) => {
+        setKeywords([
+          ...keywords,
+          {
+            _id: result._id,
+            keyword: result.keyword,
+            last_scan: "Not scanned yet",
+          },
         ]);
         setNewInput("");
       });
@@ -58,7 +65,7 @@ function TwitterAdminPanel() {
             <table className="user-table">
               <thead>
                 <tr>
-                  <th>Username</th>
+                  <th>Keyword</th>
                   <th>Last Scan</th>
                   <th>
                     <button
@@ -71,18 +78,18 @@ function TwitterAdminPanel() {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
-                  <tr key={user.username}>
-                    <td>{user.username}</td>
+                {keywords.map((keyword) => (
+                  <tr key={keyword._id}>
+                    <td>{keyword.keyword}</td>
                     <td>
-                      {typeof user.last_scan === "number"
-                        ? convertTimestampToDate(user.last_scan * 1000)
-                        : user.last_scan}
+                      {typeof keyword.last_scan === "number"
+                        ? convertTimestampToDate(keyword.last_scan * 1000)
+                        : keyword.last_scan}
                     </td>
                     <td>
                       <button
                         className="delete-btn"
-                        onClick={() => setShowDeleteConfirm(user.username)}
+                        onClick={() => setShowDeleteConfirm(keyword._id)}
                       >
                         <Trash2 size={20} />
                       </button>
@@ -97,9 +104,7 @@ function TwitterAdminPanel() {
             <div className="modal" onClick={() => setShowDeleteConfirm(null)}>
               <div className="modal-content">
                 <h3>Are you sure?</h3>
-                <p>
-                  Do you want to delete <strong>{showDeleteConfirm}</strong>?
-                </p>
+                <p>Do you want to delete the keyword?</p>
                 <div className="modal-actions">
                   <button onClick={() => handleDelete(showDeleteConfirm)}>
                     Yes
@@ -115,11 +120,11 @@ function TwitterAdminPanel() {
           {showAddForm && (
             <div className="modal">
               <div className="modal-content">
-                <h3>Add New User</h3>
-                <form onSubmit={handleAddUser}>
+                <h3>Add New Keyword</h3>
+                <form onSubmit={handleAddKeyword}>
                   <input
                     type="text"
-                    placeholder="Enter Twitter @username"
+                    placeholder="Enter Search Keyword"
                     value={`${newInput}`}
                     onChange={(e) => setNewInput(`${e.target.value}`)}
                     required
