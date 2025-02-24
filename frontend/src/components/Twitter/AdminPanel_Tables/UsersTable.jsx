@@ -3,7 +3,7 @@ import { Trash2, Plus } from "lucide-react";
 import { ClipLoader } from "react-spinners";
 import { fetchUsers, removeUser, postUser } from "../../../services/twitterApi";
 import moment from "moment";
-import "../../css/Twitter/TwitterAdminPanel.css";
+import "../../../css/Twitter/UsersTable.css";
 
 const convertTimestampToDate = (ts) => moment(ts).format("LLL");
 

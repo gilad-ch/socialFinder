@@ -2,45 +2,19 @@
   overflow-y: auto;
   margin: 10px;
   padding: 5px 20px;
-  border-radius: 12px;
   color: var(--on-surface);
 }
 
-.upper-section {
-  margin-bottom: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.table-selector {
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 8px;
-  border: 1px solid var(--primary);
-  background-color: var(--surface);
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
-  color: var(--on-surface);
-  cursor: pointer;
-}
-
-.table-selector:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-}
-
-.user-table-container {
-  border-radius: 11px;
+.keywords-table-container {
   overflow: hidden;
   position: relative;
   margin-bottom: 20px;
 }
 
-.add-user-btn {
+.add-keyword-btn {
   background-color: var(--primary);
   color: white;
+  margin: 0 12px;
   border: none;
   border-radius: 25%;
   width: 30px;
@@ -52,12 +26,11 @@
   transition: background-color 0.3s;
 }
 
-.add-user-btn:hover {
+.add-keyword-btn:hover {
   background-color: var(--primary-dark);
 }
 
-.user-table {
-  border-radius: 11px;
+.keywords-table {
   overflow: hidden;
   width: 100%;
   border-collapse: collapse;
@@ -65,14 +38,14 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.user-table th,
-.user-table td {
+.keywords-table th,
+.keywords-table td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.user-table th {
+.keywords-table th {
   -webkit-user-select: none;
   /* Safari */
   -ms-user-select: none;
@@ -84,7 +57,7 @@
   color: var(--on-surface);
 }
 
-.user-table tbody tr:hover {
+.keywords-table tbody tr:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
@@ -96,13 +69,12 @@
   transition: color 0.3s;
 }
 
-.user-table th:last-child,
-.user-table td:last-child {
+.keywords-table th:last-child,
+.keywords-table td:last-child {
   text-align: center;
   width: 50px;
 }
 
-.add-user-btn,
 .delete-btn {
   display: flex;
   align-items: center;
@@ -203,6 +175,7 @@
   border-radius: 12px;
   overflow: hidden;
 }
+
 .group-container {
   background-color: #eee;
   color: #444;
@@ -214,6 +187,7 @@
   outline: none;
   transition: 0.4s;
 }
+
 .active-group,
 .group-container:hover {
   background-color: #6e4a4a;
@@ -232,4 +206,11 @@
   background-color: white;
   display: none;
   overflow: hidden;
+}
+
+.group-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }

@@ -8,7 +8,7 @@ import {
   postKeyword,
 } from "../../../services/twitterApi";
 import moment from "moment";
-import "../../css/Twitter/TwitterKeywordsTable.css";
+import "../../../css/Twitter/KeywordsTable.css";
 
 const convertTimestampToDate = (ts) => moment(ts).format("LLL");
 
@@ -69,47 +69,60 @@ function TwitterAdminPanel() {
         </div>
       ) : (
         <>
-          {/* <Accordion
-            title={"baa"}
-            content={
-              <div className="groups-container">
+          <Accordion
+            title={
+              <>
+                <b>General</b>
                 <button
-                  className="group-container"
-                  onClick={(e) => {
-                    e.currentTarget.classList.toggle("active-group");
-                  }}
+                  className="add-keyword-btn"
+                  onClick={() => setShowAddForm(true)}
                 >
-                  group 1
+                  <Plus size={20} />
                 </button>
-                <div className="keywords">
-                  <p>hello</p>
-                </div>
-                <button className="group-container">group 2</button>
-                <div className="keywords">
-                  <p>bye</p>
-                </div>
+              </>
+            }
+            content={
+              <div className="keywords-table-container">
+                <table className="keywords-table">
+                  <tbody>
+                    {groups[0]?.keywords?.map((keyword) => (
+                      <tr key={keyword._id}>
+                        <td>{keyword.keyword}</td>
+                        <td>
+                          {typeof keyword.last_scan === "number"
+                            ? convertTimestampToDate(keyword.last_scan * 1000)
+                            : keyword.last_scan}
+                        </td>
+                        <td>
+                          <button
+                            className="delete-btn"
+                            onClick={() => setShowDeleteConfirm(keyword._id)}
+                          >
+                            <Trash2 size={20} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             }
-          /> */}
+          />
           <Accordion
-            title={"baa"}
+            title={
+              <>
+                <b>General</b>
+                <button
+                  className="add-keyword-btn"
+                  onClick={() => setShowAddForm(true)}
+                >
+                  <Plus size={20} />
+                </button>
+              </>
+            }
             content={
-              <div className="user-table-container">
-                <table className="user-table">
-                  <thead>
-                    <tr>
-                      <th>Keyword</th>
-                      <th>Last Scan</th>
-                      <th>
-                        <button
-                          className="add-user-btn"
-                          onClick={() => setShowAddForm(true)}
-                        >
-                          <Plus size={20} />
-                        </button>
-                      </th>
-                    </tr>
-                  </thead>
+              <div className="keywords-table-container">
+                <table className="keywords-table">
                   <tbody>
                     {groups[0]?.keywords?.map((keyword) => (
                       <tr key={keyword._id}>

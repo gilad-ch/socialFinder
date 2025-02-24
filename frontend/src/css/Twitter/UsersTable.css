@@ -203,6 +203,7 @@
   border-radius: 12px;
   overflow: hidden;
 }
+
 .group-container {
   background-color: #eee;
   color: #444;
@@ -214,6 +215,7 @@
   outline: none;
   transition: 0.4s;
 }
+
 .active-group,
 .group-container:hover {
   background-color: #6e4a4a;
