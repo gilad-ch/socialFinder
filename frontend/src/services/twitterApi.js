@@ -57,7 +57,7 @@ export function fetchGroups() {
   return [
     {
       _id: "67b9eca20ac78fea80f8467b",
-      name: "group 1",
+      name: "כללי",
       keywords: [
         {
           _id: "67b9c4f7905f797a8adfaa80",
@@ -66,23 +66,49 @@ export function fetchGroups() {
         },
         {
           _id: "67b9c4f7905f797a8adfaa99",
-          keyword: "משרותמשרוק",
+          keyword: "אפיפון",
           last_scan: 1740231570.1574519,
         },
       ],
     },
     {
       _id: "63b9eca20ac78fea80f84622",
-      name: "group 2",
+      name: "קשר",
       keywords: [
         {
           _id: "32b9c4f7905f797a8adfaa80",
-          keyword: "ייטקח",
+          keyword: "מכשיר קשר",
           last_scan: 1740231570.1574519,
         },
         {
           _id: "32b9c4f7905f797a8adfaa99",
-          keyword: "משרוגדשגשדק",
+          keyword: "ווקי טוקי",
+          last_scan: 1740231570.1574519,
+        },
+        {
+          _id: "31b9c4f7905f797a8adfaa99",
+          keyword: " מדונה",
+          last_scan: 1740231570.1574519,
+        },
+      ],
+    },
+    {
+      _id: "63b9eca20ac78fea80f84622",
+      name: 'אמל"ח',
+      keywords: [
+        {
+          _id: "32b9c4f7905f797a8adfaa80",
+          keyword: "טנק ",
+          last_scan: 1740231570.1574519,
+        },
+        {
+          _id: "32b9c4f7905f797a8adfaa99",
+          keyword: "M16",
+          last_scan: 1740231570.1574519,
+        },
+        {
+          _id: "31b9c4f7905f797a8adfaa99",
+          keyword: " מרכבה",
           last_scan: 1740231570.1574519,
         },
       ],
