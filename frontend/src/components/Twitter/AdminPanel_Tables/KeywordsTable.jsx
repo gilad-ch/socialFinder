@@ -69,84 +69,48 @@ function TwitterAdminPanel() {
         </div>
       ) : (
         <>
-          <Accordion
-            title={
-              <>
-                <b>General</b>
-                <button
-                  className="add-keyword-btn"
-                  onClick={() => setShowAddForm(true)}
-                >
-                  <Plus size={20} />
-                </button>
-              </>
-            }
-            content={
-              <div className="keywords-table-container">
-                <table className="keywords-table">
-                  <tbody>
-                    {groups[0]?.keywords?.map((keyword) => (
-                      <tr key={keyword._id}>
-                        <td>{keyword.keyword}</td>
-                        <td>
-                          {typeof keyword.last_scan === "number"
-                            ? convertTimestampToDate(keyword.last_scan * 1000)
-                            : keyword.last_scan}
-                        </td>
-                        <td>
-                          <button
-                            className="delete-btn"
-                            onClick={() => setShowDeleteConfirm(keyword._id)}
-                          >
-                            <Trash2 size={20} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            }
-          />
-          <Accordion
-            title={
-              <>
-                <b>General</b>
-                <button
-                  className="add-keyword-btn"
-                  onClick={() => setShowAddForm(true)}
-                >
-                  <Plus size={20} />
-                </button>
-              </>
-            }
-            content={
-              <div className="keywords-table-container">
-                <table className="keywords-table">
-                  <tbody>
-                    {groups[0]?.keywords?.map((keyword) => (
-                      <tr key={keyword._id}>
-                        <td>{keyword.keyword}</td>
-                        <td>
-                          {typeof keyword.last_scan === "number"
-                            ? convertTimestampToDate(keyword.last_scan * 1000)
-                            : keyword.last_scan}
-                        </td>
-                        <td>
-                          <button
-                            className="delete-btn"
-                            onClick={() => setShowDeleteConfirm(keyword._id)}
-                          >
-                            <Trash2 size={20} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            }
-          />
+          {groups.map((group) => (
+            <Accordion
+              title={
+                <>
+                  <b>{group.name}</b>
+                  <button
+                    className="add-keyword-btn"
+                    onClick={() => setShowAddForm(true)}
+                  >
+                    <Plus size={20} />
+                  </button>
+                </>
+              }
+              content={
+                <div className="keywords-table-container">
+                  <table className="keywords-table">
+                    <tbody>
+                      {group?.keywords?.map((keyword) => (
+                        <tr key={keyword._id}>
+                          <td>{keyword.keyword}</td>
+                          <td>
+                            {typeof keyword.last_scan === "number"
+                              ? convertTimestampToDate(keyword.last_scan * 1000)
+                              : keyword.last_scan}
+                          </td>
+                          <td>
+                            <button
+                              className="delete-btn"
+                              onClick={() => setShowDeleteConfirm(keyword._id)}
+                            >
+                              <Trash2 size={20} />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              }
+            />
+          ))}
+
           {showDeleteConfirm && (
             <div className="modal" onClick={() => setShowDeleteConfirm(null)}>
               <div className="modal-content">

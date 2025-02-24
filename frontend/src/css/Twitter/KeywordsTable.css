@@ -6,9 +6,10 @@
 }
 
 .keywords-table-container {
+  border-bottom-left-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
   overflow: hidden;
   position: relative;
-  margin-bottom: 20px;
 }
 
 .add-keyword-btn {

@@ -6,14 +6,17 @@
   flex-direction: column;
 }
 
+.active-table {
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+
 .accordion-title {
   border-radius: 5px;
-  transition: all 0.3s ease;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  font-size: large;
-  font-weight: 600;
+  font-weight: bold;
   padding: 12px;
   background-color: var(--surface-light);
   display: flex;
