@@ -6,27 +6,22 @@
 }
 
 .spinner-container {
-  height: 50px; /* Fixed height for consistency */
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: transparent; /* Ensure it doesn’t cause color artifacts */
-  margin: 0; /* Remove unnecessary margins */
-  padding: 0; /* Remove unnecessary padding */
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
 }
 
 .spinner-container-center {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height for vertical centering */
-  width: 100%; /* Full width for horizontal centering */
-  background-color: transparent; /* Optional: Light background color */
-}
-
-.main-content h2 {
-  color: var(--on-background);
-  margin-bottom: 1rem;
+  height: 100vh;
+  width: 100%;
+  background-color: transparent;
 }
 
 .in-working-message {

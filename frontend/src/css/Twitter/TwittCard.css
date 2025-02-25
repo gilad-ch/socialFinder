@@ -1,11 +1,10 @@
 .twitt-card {
-  position: relative;
+  transition: background-color 0.3s ease;
   font-family: Arial, sans-serif;
   background-color: var(--surface);
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 468px;
-  max-width: 100%;
+  width: 100%;
   overflow: hidden;
   margin-bottom: 16px;
 }
@@ -16,8 +15,9 @@
   overflow: hidden;
 }
 
-.twitt-card:hover {
-  background-color: #272727;
+.twitt-card:hover,
+.twitt-card:hover .twitt-card {
+  background-color: #252222;
 }
 
 .twitt-card.chained {
@@ -27,7 +27,6 @@
 }
 
 .twitt-card-content {
-  transition: background-color 0.3s ease;
   padding: 16px;
 }
 
@@ -121,24 +120,6 @@
   font-size: 14px;
   margin-top: 6px;
   margin-bottom: 6px;
-}
-
-.engagement-metrics {
-  display: flex;
-  justify-content: space-between;
-  color: var(--on-surface);
-  opacity: 0.7;
-  font-size: 14px;
-  margin-bottom: 16px;
-}
-
-.metric {
-  display: flex;
-  align-items: center;
-}
-
-.metric-icon {
-  margin-right: 4px;
 }
 
 .action-buttons {
@@ -343,11 +324,6 @@
   margin-right: 8px;
 }
 
-.chained-twitts {
-  max-height: 5000px;
-  overflow: hidden;
-}
-
 .twitt-keyword {
   display: flex;
   align-items: center;
@@ -373,7 +349,6 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  /* Space between the icon and the keyword */
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -384,7 +359,6 @@
 
 .keyword-icon {
   color: white;
-  /* Make the icon white for contrast */
 }
 
 .translate-button {
@@ -422,7 +396,6 @@
   margin: 0 auto;
 }
 
-/* Spinner Animation Keyframes */
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -433,7 +406,6 @@
   }
 }
 
-/* Custom checkbox */
 .select-button[type="checkbox"] {
   appearance: none;
   width: 20px;
@@ -450,13 +422,11 @@
   justify-content: center;
 }
 
-/* Checked state */
 .select-button[type="checkbox"]:checked {
   background-color: #f6413b;
   border-color: #f5605b;
 }
 
-/* Checkmark icon */
 .select-button[type="checkbox"]:checked::after {
   font-family: Arial, sans-serif;
   content: "X";
@@ -468,7 +438,6 @@
   transform: translate(-50%, -50%);
 }
 
-/* Hover effect */
 .select-button[type="checkbox"]:hover {
   border-color: #f89693;
 }

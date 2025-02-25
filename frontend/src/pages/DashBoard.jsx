@@ -4,6 +4,7 @@ import MainContent from "../components/MainContent";
 
 function DashBoard() {
   return (
+    //TODO make versatile context
     <DashboardProvider>
       <div className="content-wrapper">
         <Sidebar />

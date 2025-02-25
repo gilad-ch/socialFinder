@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { DashboardContext } from "../../contexts/DashboardContext";
-import { ClipLoader } from "react-spinners";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { DashboardContext } from "../../contexts/DashboardContext";
 import TwittCard from "./TwittCard";
-import { fetchTwitts, bulkDeleteTweets} from "../../services/twitterApi";
 import FilterChips from "./FilterChips";
+import { ClipLoader } from "react-spinners";
+import { fetchTwitts, bulkDeleteTweets } from "../../services/twitterApi";
 import "../../css/Twitter/TwitterFeed.css";
 
 function TwitterFeed() {
@@ -31,7 +31,7 @@ function TwitterFeed() {
       });
   }, [currentStatus, filters]);
 
-  // Remove a tweet from the UI
+  // Removes tweet from the UI
   const handleUIDeleteTwitt = (tweet_id) => {
     setTweets((prevTwitts) =>
       prevTwitts.filter((twitt) => twitt.tweet_id !== tweet_id)
@@ -59,9 +59,7 @@ function TwitterFeed() {
   const toggleSelection = (_id) => {
     setSelectedTweets((prev) => {
       const newSelection = new Set(prev);
-      newSelection.has(_id)
-        ? newSelection.delete(_id)
-        : newSelection.add(_id);
+      newSelection.has(_id) ? newSelection.delete(_id) : newSelection.add(_id);
       return newSelection;
     });
   };
@@ -72,8 +70,8 @@ function TwitterFeed() {
       setTweets((prevTwitts) =>
         prevTwitts.filter((twitt) => !selectedTweets.has(twitt._id))
       );
-      setSelectedTweets(new Set()); // Clear selection after deletion
-    })
+      setSelectedTweets(new Set()); // clear selection after delete
+    });
   };
 
   // Auto-select tweets when they are viewed
@@ -89,7 +87,7 @@ function TwitterFeed() {
           }
         });
       },
-      { threshold: 0.1 } // Trigger when at least 50% of the tweet is visible
+      { threshold: 0.1 }
     );
 
     // Attach observer to tweet elements

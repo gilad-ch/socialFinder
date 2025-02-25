@@ -9,7 +9,7 @@ function MainContent() {
     if (selectedPlatform === "Twitter") {
       return <TwitterSidebar />;
     } else {
-      return <TwitterSidebar />;
+      return "";
     }
   };
 

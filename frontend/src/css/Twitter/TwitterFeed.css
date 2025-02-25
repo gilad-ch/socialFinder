@@ -1,30 +1,21 @@
-
-
-.twitt-container{
+.twitter-feed {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  justify-content: center;
 }
 
-.feed-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  padding: 1rem;
-  /* Add some padding for spacing */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /* Optional: Add a subtle shadow */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.twitt-container {
+  width: 100%;
+  max-width: 468px;
 }
 
 .bulk-delete-btn {
   position: fixed;
   bottom: 20px;
   right: 40px;
-  background-color: #ff4d4d;
+  background-color: #fa2c2c;
   color: white;
   border: none;
   padding: 12px 20px;
@@ -33,14 +24,9 @@
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease;
 }
 
 .bulk-delete-btn:hover {
   background-color: #e63232;
-}
-
-.bulk-delete-btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
 }

@@ -1,7 +1,5 @@
-import { useState } from "react";
-import { useContext } from "react";
-import { DashboardContext } from "../../contexts/DashboardContext";
-import TwitterMessage from "./TwitterMessage";
+import { useState, useContext } from "react";
+import moment from "moment";
 import {
   ChevronDown,
   ChevronUp,
@@ -9,11 +7,13 @@ import {
   SquareArrowOutUpRight,
   Search,
 } from "lucide-react";
-import Linkify from "linkify-react";
-import "../../css/Twitter/TwittCard.css";
-import moment from "moment";
-import { updateTweetStatus, deleteTweet } from "../../services/twitterApi";
+
+import TwitterMessage from "./TwitterMessage";
 import { translateText } from "../../services/generalApi";
+import { DashboardContext } from "../../contexts/DashboardContext";
+import { updateTweetStatus, deleteTweet } from "../../services/twitterApi";
+
+import "../../css/Twitter/TwittCard.css";
 
 const convertTimestampToDate = (ts) => moment(ts).format("LLL");
 
@@ -282,10 +282,10 @@ function TwittCard({ twitt, uiDeleteTwitt, toggleSelection, selected }) {
   };
 
   if (twitt.conversation.length) {
-    // This a chained twitt
+    // chained twitt
     return (
       <div className="twitt-chain">
-        <TwittContent
+        <TwittContent // parent tweet
           twitt={twitt}
           showActions={true}
           uiDeleteTwitt={uiDeleteTwitt}
