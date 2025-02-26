@@ -69,6 +69,15 @@ function TwitterAdminPanel() {
         </div>
       ) : (
         <div className="gorups-conainer">
+          <div className="groups-conainer-header">
+            <h3>Categories</h3>
+            <button
+              className="add-category-btn"
+              onClick={() => setShowAddForm(true)}
+            >
+              <Plus size={20} />
+            </button>
+          </div>
           {groups.map((group) => (
             <Accordion
               title={
@@ -84,22 +93,22 @@ function TwitterAdminPanel() {
               }
               content={
                 <div className="keywords-container">
-                      {group?.keywords?.map((keyword) => (
-                        <div className="keyword-container" key={keyword._id}>
-                          <div className="keyword-text">{keyword.keyword}</div>
-                          <div className="timestamp-text">
-                            {typeof keyword.last_scan === "number"
-                              ? convertTimestampToDate(keyword.last_scan * 1000)
-                              : keyword.last_scan}
-                          </div>
-                          <button
-                            className="delete-keyword-btn"
-                            onClick={() => setShowDeleteConfirm(keyword._id)}
-                          >
-                            <Trash2 size={20} />
-                          </button>
-                        </div>
-                      ))}
+                  {group?.keywords?.map((keyword) => (
+                    <div className="keyword-container" key={keyword._id}>
+                      <div className="keyword-text">{keyword.keyword}</div>
+                      <div className="timestamp-text">
+                        {typeof keyword.last_scan === "number"
+                          ? convertTimestampToDate(keyword.last_scan * 1000)
+                          : keyword.last_scan}
+                      </div>
+                      <button
+                        className="delete-keyword-btn"
+                        onClick={() => setShowDeleteConfirm(keyword._id)}
+                      >
+                        <Trash2 size={20} />
+                      </button>
+                    </div>
+                  ))}
                 </div>
               }
             />

@@ -6,6 +6,10 @@
   flex-direction: column;
 }
 
+.accordion-item:last-child {
+  margin-bottom: 0rem;
+}
+
 .active-table {
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
