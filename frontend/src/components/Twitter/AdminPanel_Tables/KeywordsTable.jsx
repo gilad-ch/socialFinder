@@ -83,29 +83,23 @@ function TwitterAdminPanel() {
                 </>
               }
               content={
-                <div className="keywords-table-container">
-                  <table className="keywords-table">
-                    <tbody>
+                <div className="keywords-container">
                       {group?.keywords?.map((keyword) => (
-                        <tr key={keyword._id}>
-                          <td>{keyword.keyword}</td>
-                          <td>
+                        <div className="keyword-container" key={keyword._id}>
+                          <div className="keyword-text">{keyword.keyword}</div>
+                          <div className="timestamp-text">
                             {typeof keyword.last_scan === "number"
                               ? convertTimestampToDate(keyword.last_scan * 1000)
                               : keyword.last_scan}
-                          </td>
-                          <td>
-                            <button
-                              className="delete-btn"
-                              onClick={() => setShowDeleteConfirm(keyword._id)}
-                            >
-                              <Trash2 size={20} />
-                            </button>
-                          </td>
-                        </tr>
+                          </div>
+                          <button
+                            className="delete-keyword-btn"
+                            onClick={() => setShowDeleteConfirm(keyword._id)}
+                          >
+                            <Trash2 size={20} />
+                          </button>
+                        </div>
                       ))}
-                    </tbody>
-                  </table>
                 </div>
               }
             />
