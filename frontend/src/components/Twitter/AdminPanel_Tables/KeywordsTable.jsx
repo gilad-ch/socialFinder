@@ -62,13 +62,13 @@ function TwitterAdminPanel() {
   };
 
   return (
-    <div className="admin-panel">
+    <>
       {loading ? (
         <div className="spinner-container-center">
           <ClipLoader color="#3b82f6" loading={true} size={50} />
         </div>
       ) : (
-        <>
+        <div className="gorups-conainer">
           {groups.map((group) => (
             <Accordion
               title={
@@ -144,9 +144,9 @@ function TwitterAdminPanel() {
               </div>
             </div>
           )}
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 }
 

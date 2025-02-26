@@ -1,8 +1,14 @@
 .admin-panel {
-  overflow-y: auto;
   margin: 10px;
-  padding: 5px 20px;
+  padding: 10px 40px;
   color: var(--on-surface);
+  overflow-y: auto;
+  border-radius: 12px;
+  color: var(--on-surface);
+}
+
+.dropdown-button{
+  margin-bottom: 3px;
 }
 
 .add-keyword-btn {

@@ -57,7 +57,7 @@ export function fetchGroups() {
   return [
     {
       _id: "67b9eca20ac78fea80f8467b",
-      name: "General",
+      name: "כללי",
       keywords: [
         {
           _id: "67b9c4f7905f797a8adfaa80",
